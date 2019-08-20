@@ -51,7 +51,7 @@ public class UserController {
 		if (HttpSessionUtils.isLoginUser(session)) {
 			User user = HttpSessionUtils.getUserFromSession(session);
 			model.addAttribute("user", user);
-			return "user";
+			return "redirect:/user";
 		// 로그인이 되어있지 않은 경우
 		} else {
 			return "register";

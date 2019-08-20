@@ -20,7 +20,7 @@
     =========================================================
     * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
     -->
-<link href="main3.css" rel="stylesheet" />
+<link href="/main3.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <form id="Chatlist" th:object="${user}">
@@ -645,7 +645,7 @@
 								            		</select>
 											
 													 <div role="group" class="btn-group-sm btn-group">
-														   <button class="active btn btn-focus" onClick="registerChatroom()">생성</button>
+														   <button class="active btn btn-focus" onClick="registerProcess()">생성</button>
 													</div>
                                             </tbody>
                                         </table>
@@ -698,9 +698,11 @@
     </div>
     </div>
     </form>
+    
 <script type="text/javascript" src="/assets/scripts/main.js"></script>
 <script src="js/main2.js"></script>
 <script src="/js/chatlist.js"></script>
 <script src="js/user.js"></script>
+
 </body>
 </html>

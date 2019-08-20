@@ -40,8 +40,8 @@ public class ChatroomEntity {
 	
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(name="User_Chatroom",
-			joinColumns = @JoinColumn(name = "user_id"),
-			inverseJoinColumns = @JoinColumn(name = "chatroom_id"))
+			joinColumns = @JoinColumn(name = "chatroom_id"),
+			inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private List<UserEntity> users = new ArrayList<UserEntity>();
 	
 	public Long getId() {

@@ -93,7 +93,8 @@ public class ChattingController {
 	
 	// 채팅방 등록 처리
 	@PostMapping("")
-	public String registerChattings(HttpServletRequest request, @Valid Chatroom formChatroom, Model model, HttpSession session, EntityManager entityManager) {
+	public String registerChattings(HttpServletRequest request, @Valid Chatroom formChatroom, Model model, HttpSession session) {
+		System.out.println("등록처리 시작");
 		// 로그인 되어 있는 경우
 		if (HttpSessionUtils.isLoginUser(session)) {
 			User user = HttpSessionUtils.getUserFromSession(session);
@@ -103,7 +104,6 @@ public class ChattingController {
 			User otherUser = new User();
 			
 			otherUser = userService.getUserByUserId(otherUserId);
-			
 			chatroomService.saveChatroom(formChatroom);
 			ChatroomEntity savedChatroom = new ChatroomEntity();
 			savedChatroom.buildEntity(chatroomService.getChatroomByName(formChatroom.getName()));
@@ -111,6 +111,7 @@ public class ChattingController {
 			UserEntity userentity = new UserEntity();
 			userentity.buildEntity(user);
 			savedChatroom.addUser(userentity);
+			
 			chatroomService.saveChatroom2(savedChatroom);
 			
 			UserEntity userentity2 = new UserEntity();
@@ -118,12 +119,13 @@ public class ChattingController {
 			savedChatroom.addUser(userentity2);
 			chatroomService.saveChatroom2(savedChatroom);
 			
-			return "redirect:/chat";
+			return "redirect:/chattings";
 		// 로그인 되어 있지 않은 경우
 		} else {
 			return "redirect:/login";
 		}
 	}
+	
 	/*
 	// 유저 수정
 	@PutMapping("")

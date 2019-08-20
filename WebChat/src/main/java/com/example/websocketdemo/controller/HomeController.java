@@ -72,7 +72,7 @@ public class HomeController {
 		
 		// form에 입력된 정보도 없었다면
 		if(formUser.getUserId() == null) {
-			return "login";
+			return "redirect:/login";
 		
 		// form에 입력된 정보가 있었다면
 		} else {
@@ -83,10 +83,10 @@ public class HomeController {
 			// error가 없을 시 session에 user 정보 저장 후 /user url로 이동
 			if(user == null) {
 				System.out.println("id error : ");
-				return "login";
+				return "redirect:/login";
 			} else if(!user.getUserPw().equals(formUser.getUserPw())) {
 				System.out.println("pw error : ");
-				return "login";
+				return "redirect:/login";
 			} else {
 				session.setAttribute("user", user);
 				return "redirect:/chattings";

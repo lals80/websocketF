@@ -9,9 +9,9 @@ $(document).ready(function() {
 })
 
 function logout() {
-	location.href = "/logout";
+	location.href = "/logout.do";
 }
 
 function chatlist() {
-	location.href = "/chat"
+	location.href = "/chattings"
 }
