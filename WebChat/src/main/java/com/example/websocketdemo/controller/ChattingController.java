@@ -127,7 +127,7 @@ public class ChattingController {
 	}
 	
 	/*
-	// 유저 수정
+	// 채팅방 수정(이름변경 or 강퇴)
 	@PutMapping("")
 	public String updateUserById(@Valid User formUser, Model model, HttpSession session) {
 		User user = HttpSessionUtils.getUserFromSession(session);
@@ -145,18 +145,11 @@ public class ChattingController {
 		return "redirect:/";
 	}
 	
-	// 유저 삭제
+	// 채팅방 나가기
 	@DeleteMapping("")
 	public String deleteUserById(Model model, HttpSession session) {
 		userService.deleteUser(HttpSessionUtils.getUserFromSession(session));
 		
-		session.invalidate();
-		return "redirect:/";
-	}
-	
-	// 로그아웃
-	@GetMapping("/logout")
-	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/";
 	}

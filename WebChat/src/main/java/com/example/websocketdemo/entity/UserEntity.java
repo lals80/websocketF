@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,9 +16,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.example.websocketdemo.domain.Chatroom;
 import com.example.websocketdemo.domain.Message;
 import com.example.websocketdemo.domain.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "user")
@@ -43,7 +48,6 @@ public class UserEntity {
 	
 	// 얼굴 사진 profile 필드, 생략
 	// 친구 기능 friend List<User> 생략
-		
 	public Long getId() {
 		return id;
 	}
@@ -88,22 +92,45 @@ public class UserEntity {
 		user.setUserPw(userPw);
 		user.setName(name);
 		
-		List<Message> userMessages = new ArrayList<Message>();
 		for(MessageEntity message : messages) {
-			userMessages.add(message.buildDomain());
-			// user.getMessages().add(message.buildDomain());
-		}
-		user.setMessages(userMessages);
+			user.getMessages().add(message.buildDomain());
+		}		
 		
-		List<Chatroom> userChatrooms = new ArrayList<Chatroom>();
 		for(ChatroomEntity chatroom : chatrooms) {
-			// user.getChatrooms().add(chatroom.buildDomain());
-			userChatrooms.add(chatroom.buildDomain());
+			user.getChatrooms().add(chatroom.buildDomain2());
 		}
-		user.setChatrooms(userChatrooms);
 		
 		return user;
 	}
+	
+	public User buildDomain2() {
+		User user = new User();
+		user.setId(id);
+		user.setUserId(userId);
+		user.setUserPw(userPw);
+		user.setName(name);
+		
+		for(MessageEntity message : messages) {
+			user.getMessages().add(message.buildDomain());
+		}		
+		
+		for(ChatroomEntity chatroom : chatrooms) {
+			user.getChatrooms().add(chatroom.buildDomain3());
+		}
+		
+		return user;
+	}
+	
+	public User buildDomain3() {
+		User user = new User();
+		user.setId(id);
+		user.setUserId(userId);
+		user.setUserPw(userPw);
+		user.setName(name);
+		
+		return user;
+	}
+	
 	public void buildEntity(User user) {
 		id = user.getId();
 		userId = user.getUserId();

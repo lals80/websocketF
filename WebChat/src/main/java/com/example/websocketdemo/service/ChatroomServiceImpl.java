@@ -45,7 +45,7 @@ public class ChatroomServiceImpl implements ChatroomService {
 		ChatroomEntity entity = new ChatroomEntity();
 		entity.buildEntity(chatroom);
 		
-		repository.saveAndFlush(entity);
+		repository.save(entity);
 	}
 
 	@Override

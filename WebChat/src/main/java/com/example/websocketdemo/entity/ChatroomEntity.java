@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,8 +17,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.example.websocketdemo.domain.Chatroom;
 import com.example.websocketdemo.domain.Message;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "chatroom")
@@ -88,14 +92,43 @@ public class ChatroomEntity {
 			// List 인터페이스의 add 메서드는 List에 요소를 추가한다.
 			// List 인터페이스의 get 메서드는 List에서 i번째 요소를 return 한다.
 		}
-		for(UserEntity entity : users) {
+		for(UserEntity user : users) {
 			// List 인터페이스의 size()메서드는 List 내부의 요소들의 갯수를 의미한다.
-			chatroom.getUsers().add(entity.buildDomain());
+			chatroom.getUsers().add(user.buildDomain2());
 			// List 인터페이스의 add 메서드는 List에 요소를 추가한다.
 			// List 인터페이스의 get 메서드는 List에서 i번째 요소를 return 한다.
 		}
+		
 		return chatroom;
 	}	
+	
+	public Chatroom buildDomain2() {
+		Chatroom chatroom = new Chatroom();
+		chatroom.setId(id);
+		chatroom.setName(name);
+		for(MessageEntity entity : messages) {
+			// List 인터페이스의 size()메서드는 List 내부의 요소들의 갯수를 의미한다.
+			chatroom.getMessages().add(entity.buildDomain());
+			// List 인터페이스의 add 메서드는 List에 요소를 추가한다.
+			// List 인터페이스의 get 메서드는 List에서 i번째 요소를 return 한다.
+		}
+		for(UserEntity user : users) {
+			// List 인터페이스의 size()메서드는 List 내부의 요소들의 갯수를 의미한다.
+			chatroom.getUsers().add(user.buildDomain3());
+			// List 인터페이스의 add 메서드는 List에 요소를 추가한다.
+			// List 인터페이스의 get 메서드는 List에서 i번째 요소를 return 한다.
+		}
+		
+		return chatroom;
+	}
+	
+	public Chatroom buildDomain3() {
+		Chatroom chatroom = new Chatroom();
+		chatroom.setId(id);
+		chatroom.setName(name);
+		return chatroom;
+	}
+	
 	public void buildEntity(Chatroom chatroom) {
 		id = chatroom.getId();
 		name = chatroom.getName();
