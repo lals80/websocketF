@@ -15,5 +15,5 @@ import com.example.websocketdemo.entity.UserEntity;
 @Repository
 public interface ChatroomRepository	extends JpaRepository<ChatroomEntity, Long> {
 	ChatroomEntity findByName(String name);
-	List<MessageEntity> findByIdOrderByIdAsc(long roomId);
+	ChatroomEntity findById(Long roomId);
 }

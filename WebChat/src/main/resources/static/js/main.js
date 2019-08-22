@@ -1,15 +1,20 @@
 'use strict';
 // strict 모드 사용. 자바스크립트가 묵인했던 에러들의 에러 메시지 발생(엄격한 문법 검사)
-/*
+// 로그인한 유저가 포함된 채팅방과 websocket 연결
+// 유저 정보를 읽어서 유저가 들어가있는 채팅방을 알아낸다.
+// 해당 채팅방들과 websocket 연결을 실시한다.
+
+var socket = null;
+//server 소켓의 endpoint인 /ws로 접속할 클라이언트  소켓 생성.
+var stompClient = null;
+
 var sessionUser = sessionStorage.getItem("user");
-var sessionRoomIds = sessionStorage.getItem("roomids")
 
 var name = null;
 if(sessionUser){
 	name = sessionUser.name;
-	var roomId = "[[${showTextFromJavaController}]]";
+	var roomId = /*[[${roomId}]]*/ 'default';
 	alert(roomId);
-
 
 	var socket = new SockJS('/ws');
 	stompClient = Stomp.over(socket);
@@ -17,9 +22,7 @@ if(sessionUser){
 	stompClient.connect({}, onConnected, onError);
 }
 
-var socket = null;
-// server 소켓의 endpoint인 /ws로 접속할 클라이언트  소켓 생성.
-var stompClient = null;
+
 
 var colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
@@ -59,17 +62,13 @@ function connect(event) {
 
 
 function onConnected() {
-    
-    
     connectingElement.classList.add('hidden');
 }
-
 
 function onError(error) {
     connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
     connectingElement.style.color = 'red';
 }
-
 
 function sendMessage(event) {
     var messageContent = messageInput.value.trim();
@@ -165,4 +164,3 @@ function register() {
     // registerForm.method="post";//POST방식
     // registerForm.submit();
 }
-*/

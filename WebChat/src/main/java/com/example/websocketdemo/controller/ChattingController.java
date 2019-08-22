@@ -45,13 +45,8 @@ public class ChattingController {
 			
 			User user = HttpSessionUtils.getUserFromSession(session);
 			model.addAttribute("user", user);
+			model.addAttribute("chatrooms", user.getChatrooms());
 			
-			for(Chatroom chatroom : user.getChatrooms()) {
-				System.out.println(chatroom.getId());
-				System.out.println(chatroom.getName());
-				System.out.println(chatroom.getMessages());
-				System.out.println(chatroom.getUsers());
-			}
 			return "chatlist";
 	
 		// 로그인 되어 있지 않은 경우

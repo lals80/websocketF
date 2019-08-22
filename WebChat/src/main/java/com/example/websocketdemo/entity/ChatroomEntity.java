@@ -88,7 +88,7 @@ public class ChatroomEntity {
 		chatroom.setName(name);
 		for(MessageEntity entity : messages) {
 			// List 인터페이스의 size()메서드는 List 내부의 요소들의 갯수를 의미한다.
-			chatroom.getMessages().add(entity.buildDomain());
+			chatroom.getMessages().add(entity.buildDomain2());
 			// List 인터페이스의 add 메서드는 List에 요소를 추가한다.
 			// List 인터페이스의 get 메서드는 List에서 i번째 요소를 return 한다.
 		}
@@ -108,7 +108,7 @@ public class ChatroomEntity {
 		chatroom.setName(name);
 		for(MessageEntity entity : messages) {
 			// List 인터페이스의 size()메서드는 List 내부의 요소들의 갯수를 의미한다.
-			chatroom.getMessages().add(entity.buildDomain());
+			chatroom.getMessages().add(entity.buildDomain3());
 			// List 인터페이스의 add 메서드는 List에 요소를 추가한다.
 			// List 인터페이스의 get 메서드는 List에서 i번째 요소를 return 한다.
 		}

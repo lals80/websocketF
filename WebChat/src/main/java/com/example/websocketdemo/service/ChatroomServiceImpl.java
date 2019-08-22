@@ -26,14 +26,16 @@ public class ChatroomServiceImpl implements ChatroomService {
 	@Autowired ChatroomRepository repository;
 
 	@Override
-	public List<Message> getMessagesByRoomId(long roomId) {
+	public List<Message> getMessagesByRoomId(Long roomId) {
 		// TODO Auto-generated method stub
 		List<Message> messages = new ArrayList<Message>();
-		List<MessageEntity> messageEntities = repository.findByIdOrderByIdAsc(roomId);
 		
-		for(MessageEntity entity : messageEntities) {
-			Message message = entity.buildDomain();
-			messages.add(message);
+		ChatroomEntity chatroomEntity = repository.findById(roomId);
+		List<MessageEntity> messageEntities = chatroomEntity.getMessages(); 
+		
+		System.out.println(messageEntities);
+		for(MessageEntity message : messageEntities) {
+			messages.add(message.buildDomain());
 		}
 		
 		return messages;

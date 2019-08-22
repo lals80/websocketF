@@ -93,7 +93,7 @@ public class UserEntity {
 		user.setName(name);
 		
 		for(MessageEntity message : messages) {
-			user.getMessages().add(message.buildDomain());
+			user.getMessages().add(message.buildDomain2());
 		}		
 		
 		for(ChatroomEntity chatroom : chatrooms) {
@@ -111,7 +111,7 @@ public class UserEntity {
 		user.setName(name);
 		
 		for(MessageEntity message : messages) {
-			user.getMessages().add(message.buildDomain());
+			user.getMessages().add(message.buildDomain3());
 		}		
 		
 		for(ChatroomEntity chatroom : chatrooms) {

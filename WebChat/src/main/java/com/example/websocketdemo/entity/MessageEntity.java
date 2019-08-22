@@ -83,12 +83,31 @@ public class MessageEntity {
 	public Message buildDomain() {
 		Message message = new Message();
 		message.setId(id);
-		message.setUser(user.buildDomain());
+		message.setUser(user.buildDomain2());
 		message.setContents(contents);
-		message.setChatroom(chatroom.buildDomain());
+		message.setChatroom(chatroom.buildDomain2());
 		message.setChatTime(chatTime);
 		return message;
 	}
+	
+	public Message buildDomain2() {
+		Message message = new Message();
+		message.setId(id);
+		message.setUser(user.buildDomain3());
+		message.setContents(contents);
+		message.setChatroom(chatroom.buildDomain3());
+		message.setChatTime(chatTime);
+		return message;
+	}
+	
+	public Message buildDomain3() {
+		Message message = new Message();
+		message.setId(id);
+		message.setContents(contents);
+		message.setChatTime(chatTime);
+		return message;
+	}
+	
 	public void buildEntity(Message message) {
 		id=message.getId();
 		UserEntity userEntity = new UserEntity();

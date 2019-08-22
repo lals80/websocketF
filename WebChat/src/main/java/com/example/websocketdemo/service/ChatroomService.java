@@ -17,7 +17,7 @@ public interface ChatroomService {
 	// 채팅방으로 사람을 초대할 수 있어야 한다. put
 	// 채팅방에서 나갈 수 있어야 한다. delete
 	
-	List<Message> getMessagesByRoomId(long roomId);
+	List<Message> getMessagesByRoomId(Long roomId);
 	
 	Chatroom getChatroomByName(String name);
 	void saveChatroom(Chatroom chatroom); // 생성
