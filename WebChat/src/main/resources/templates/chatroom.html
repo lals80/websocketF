@@ -19,7 +19,42 @@
 		document.ready를 사용해서 DB의 Message 읽고 반영하기
 		
 	 -->
-	<script th:inline="javascript">
+	 
+	
+		
+	
+	
+</head>
+<body>
+<noscript>
+    <h2>Sorry! Your browser doesn't support Javascript</h2>
+</noscript>
+
+<div id="contents-page">
+	<div class="chat-container">
+	    <div class="chat-header">
+	        <h2>채팅방이름</h2>
+	    </div>
+	    <div class="connecting">
+	        Connecting...
+	    </div>
+	    <ul id="messageArea">
+	
+	    </ul>
+	    <form id="messageForm" name="messageForm" nameForm="messageForm">
+	        <div class="form-group">
+	            <div class="input-group clearfix">
+	                <input type="text" id="message" placeholder="Type a message..." autocomplete="off" class="form-control"/>
+	                <button type="submit" class="primary">Send</button>
+	            </div>
+	        </div>
+	    </form>
+	</div>
+	
+	
+</div>
+
+<script th:inline="javascript">//<![CDATA[
 		'use strict';
 		
 		var socket = null;
@@ -27,9 +62,9 @@
 		var stompClient = null;
 		var name = null;
 		
-		var connectingElement = document.querySelector('.connecting');
-		var messageInput = document.querySelector('#message');
-		
+		var connectingElement = document.querySelector(".connecting");
+		var messageInput = document.querySelector("#message");
+		 
 		var currentRoomId = /*[[${currentRoomId}]]*/;
 		var sessionUser = /*[[${user}]]*/;
 		var chatrooms = sessionUser.chatrooms;
@@ -48,23 +83,26 @@
 		];
 		
 		function connect(event) {
-			
-			chatrooms.forEach(function(element) {
-				stompClient.subscribe('/topic/' + element.id, onMessageReceived);
-			})
+			stompClient.connect({}, onConnected, onError);
+			event.preventDefault();
 		}
 
 
 		function onConnected() {
-			
+			chatrooms.forEach(function(element) {
+				stompClient.subscribe('/topic/' + element.id, onMessageReceived);
+			});
+			connectingElement.classList.add("hidden");
 		}
 
 		function onError(error) {
-		    
+			connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
+		    connectingElement.style.color = 'red';
 		}
 		
 		function sendMessage(event) {
 		    var messageContent = messageInput.value.trim();
+		    
 		    if(messageContent && stompClient) {
 		        var chatMessage = {
 		            sender: name,
@@ -74,6 +112,7 @@
 		        stompClient.send("/app/chat.sendMessage/" + currentRoomId, {}, JSON.stringify(chatMessage));
 		        messageInput.value = '';
 		    }
+		    
 		    event.preventDefault();
 		}
 
@@ -130,38 +169,12 @@
 		    return colors[index];
 		    // 아바타 색 랜덤 지정
 		}
-	</script>
-	
-	
-</head>
-<body>
-<noscript>
-    <h2>Sorry! Your browser doesn't support Javascript</h2>
-</noscript>
-
-<div id="contents-page">
-	<div class="chat-container">
-	    <div class="chat-header">
-	        <h2>채팅방이름</h2>
-	    </div>
-	    <div class="connecting">
-	        Connecting...
-	    </div>
-	    <ul id="messageArea">
-	
-	    </ul>
-	    <form id="messageForm" name="messageForm" nameForm="messageForm">
-	        <div class="form-group">
-	            <div class="input-group clearfix">
-	                <input type="text" id="message" placeholder="Type a message..." autocomplete="off" class="form-control"/>
-	                <button type="submit" class="primary">Send</button>
-	            </div>
-	        </div>
-	    </form>
-	</div>
-	
-	
-</div>
+		
+		var messageForm = document.querySelector('#messageForm');
+		messageForm.addEventListener('submit', sendMessage, true) 
+		//]]></script>
+		
+		
 </body>
 
 

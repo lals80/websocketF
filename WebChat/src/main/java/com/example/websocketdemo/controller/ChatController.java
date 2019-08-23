@@ -24,6 +24,9 @@ public class ChatController {
     public void sendMessage(@DestinationVariable String roomId, @Payload ChatMessage chatMessage) {
     	// DB Message 테이블에 insert 해야함.
     	// MessageMapping 동적 경로 설정, send 방법
+    	System.out.println("MessageMapping 시작");
+    	System.out.println(roomId);
+    	System.out.println(chatMessage);
     	template.convertAndSend("/topic/" + roomId, chatMessage);
     }
     /*
