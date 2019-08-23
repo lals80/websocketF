@@ -1,4 +1,4 @@
-* {
+ {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -104,11 +104,11 @@ button.accent {
     color: #fff;
 }
 
-#contents-page {
+#username-page {
     text-align: center;
 }
 
-div[class$="page-container"] {
+.username-page-container {
     background: #fff;
     box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27);
     border-radius: 2px;
@@ -128,7 +128,7 @@ div[class$="page-container"] {
     margin-top: -160px;
 }
 
-div[class$="page-container"] .submit {
+.username-page-container .username-submit {
     margin-top: 10px;
 }
 
@@ -265,7 +265,7 @@ div[class$="page-container"] .submit {
         height: calc(100% - 30px);
     }
 
-    div[class$="page-container"] {
+    .username-page-container {
         width: auto;
         margin-left: 15px;
         margin-right: 15px;
@@ -295,4 +295,4 @@ div[class$="page-container"] .submit {
     .chat-header h2 {
         font-size: 1.1em;
     }
-}
+} 
