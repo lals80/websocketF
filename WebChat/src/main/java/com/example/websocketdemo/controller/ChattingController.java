@@ -61,6 +61,8 @@ public class ChattingController {
 		// 로그인 되어 있는 경우
 		if (HttpSessionUtils.isLoginUser(session)) {
 			List<Message> messages = chatroomService.getMessagesByRoomId(roomId);
+			model.addAttribute("user", HttpSessionUtils.getUserFromSession(session));
+			model.addAttribute("currentRoomId", roomId);
 			model.addAttribute("messages", messages);
 			return "chatroom";
 		// 로그인 되어 있지 않은 경우

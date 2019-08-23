@@ -11,6 +11,128 @@
 	<script src="/js/stomp.min.js"></script>
 	<script src="/js/cookie.js"></script>
 	<script src="/js/main.js"></script>
+	
+	
+	<!--
+	
+		connectingElement 가 null로 인식되는 이유
+		document.ready를 사용해서 DB의 Message 읽고 반영하기
+		
+	 -->
+	<script th:inline="javascript">
+		'use strict';
+		
+		var socket = null;
+		//server 소켓의 endpoint인 /ws로 접속할 클라이언트  소켓 생성.
+		var stompClient = null;
+		var name = null;
+		
+		var connectingElement = document.querySelector('.connecting');
+		var messageInput = document.querySelector('#message');
+		
+		var currentRoomId = /*[[${currentRoomId}]]*/;
+		var sessionUser = /*[[${user}]]*/;
+		var chatrooms = sessionUser.chatrooms;
+		
+		if(sessionUser){
+			name = sessionUser.name;
+			var socket = new SockJS('/ws');
+			stompClient = Stomp.over(socket);
+		
+			stompClient.connect({}, onConnected, onError);
+		}
+
+		var colors = [
+		    '#2196F3', '#32c787', '#00BCD4', '#ff5652',
+		    '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
+		];
+		
+		function connect(event) {
+			
+			chatrooms.forEach(function(element) {
+				stompClient.subscribe('/topic/' + element.id, onMessageReceived);
+			})
+		}
+
+
+		function onConnected() {
+			
+		}
+
+		function onError(error) {
+		    
+		}
+		
+		function sendMessage(event) {
+		    var messageContent = messageInput.value.trim();
+		    if(messageContent && stompClient) {
+		        var chatMessage = {
+		            sender: name,
+		            content: messageInput.value,
+		            type: 'CHAT'
+		        };
+		        stompClient.send("/app/chat.sendMessage/" + currentRoomId, {}, JSON.stringify(chatMessage));
+		        messageInput.value = '';
+		    }
+		    event.preventDefault();
+		}
+
+
+		function onMessageReceived(payload) {
+			// 받은 메시지를 해석해서 메시지 창에 나오는 HTML 소스 추가
+		    var message = JSON.parse(payload.body);
+
+		    var messageElement = document.createElement('li');
+
+		    if(message.type === 'JOIN') {
+		        messageElement.classList.add('event-message');
+		        message.content = message.sender + ' joined!';
+		    } else if (message.type === 'LEAVE') {
+		        messageElement.classList.add('event-message');
+		        message.content = message.sender + ' left!';
+		    } else {
+		        messageElement.classList.add('chat-message');
+
+		        var avatarElement = document.createElement('i');
+		        var avatarText = document.createTextNode(message.sender[0]);
+		        avatarElement.appendChild(avatarText);
+		        avatarElement.style['background-color'] = getAvatarColor(message.sender);
+		        // 아이콘 만들기
+
+		        messageElement.appendChild(avatarElement);
+
+		        var usernameElement = document.createElement('span');
+		        var usernameText = document.createTextNode(message.sender);
+		        usernameElement.appendChild(usernameText);
+		        messageElement.appendChild(usernameElement);
+		        // username 띄우기
+		    }
+
+		    var textElement = document.createElement('p');
+		    var messageText = document.createTextNode(message.content);
+		    textElement.appendChild(messageText);
+		    // 메시지 내용 띄우기
+
+		    messageElement.appendChild(textElement);
+
+		    messageArea.appendChild(messageElement);
+		    messageArea.scrollTop = messageArea.scrollHeight;
+		    // 추가하고, 스크롤 제일 밑으로 내리기
+		}
+
+
+		function getAvatarColor(messageSender) {
+		    var hash = 0;
+		    for (var i = 0; i < messageSender.length; i++) {
+		        hash = 31 * hash + messageSender.charCodeAt(i);
+		    }
+		    var index = Math.abs(hash % colors.length);
+		    return colors[index];
+		    // 아바타 색 랜덤 지정
+		}
+	</script>
+	
+	
 </head>
 <body>
 <noscript>
@@ -38,7 +160,10 @@
 	    </form>
 	</div>
 	
-	<script src="/js/chatroom.js"></script>
+	
 </div>
 </body>
+
+
+
 </html>
