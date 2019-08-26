@@ -19,8 +19,6 @@
 		document.ready를 사용해서 DB의 Message 읽고 반영하기
 		
 	 -->
-	 
-	
 		
 	
 	
@@ -67,7 +65,51 @@
 		 
 		var currentRoomId = /*[[${currentRoomId}]]*/;
 		var sessionUser = /*[[${user}]]*/;
+		var messages = /*[[${messages}]]*/;
 		var chatrooms = sessionUser.chatrooms;
+		
+		$( document ).ready(function() {
+	    	messages.forEach(function(element){
+	    		var messageElement = document.createElement('li');
+	    		if(message.type === 'JOIN') {
+			        messageElement.classList.add('event-message');
+			        element.contents = element.user.name + ' joined!';
+			    } else if (message.type === 'LEAVE') {
+			        messageElement.classList.add('event-message');
+			        element.contents = element.user.name + ' left!';
+			    } else {
+			        messageElement.classList.add('chat-message');
+	
+			        var avatarElement = document.createElement('i');
+			        var avatarText = document.createTextNode(element.user.name[0]);
+			        avatarElement.appendChild(avatarText);
+			        avatarElement.style['background-color'] = getAvatarColor(element.user.name);
+			        // 아이콘 만들기
+	
+			        messageElement.appendChild(avatarElement);
+	
+			        var usernameElement = document.createElement('span');
+			        var usernameText = document.createTextNode(element.user.name);
+			        usernameElement.appendChild(usernameText);
+			        messageElement.appendChild(usernameElement);
+			        // username 띄우기
+			    }
+		    
+		    
+		    
+			    var textElement = document.createElement('p');
+			    var messageText = document.createTextNode(element.contents);
+			    textElement.appendChild(messageText);
+			    // 메시지 내용 띄우기
+	
+			    messageElement.appendChild(textElement);
+	
+			    messageArea.appendChild(messageElement);
+			    
+			    // 추가하고, 스크롤 제일 밑으로 내리기
+	    	});
+	    	messageArea.scrollTop = messageArea.scrollHeight;
+		});
 		
 		if(sessionUser){
 			name = sessionUser.name;
@@ -105,6 +147,7 @@
 		    
 		    if(messageContent && stompClient) {
 		        var chatMessage = {
+		        	senderId: sessionUser.id,
 		            sender: name,
 		            content: messageInput.value,
 		            type: 'CHAT',
@@ -129,7 +172,7 @@
 		    	
 			    if(message.type === 'JOIN') {
 			        messageElement.classList.add('event-message');
-			        message.content = message.sender + ' joined!';
+			        message.content = element.contents + ' joined!';
 			    } else if (message.type === 'LEAVE') {
 			        messageElement.classList.add('event-message');
 			        message.content = message.sender + ' left!';

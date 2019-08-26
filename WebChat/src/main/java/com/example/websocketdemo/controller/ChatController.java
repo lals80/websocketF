@@ -1,7 +1,13 @@
 package com.example.websocketdemo.controller;
 
+import com.example.websocketdemo.domain.Message;
+import com.example.websocketdemo.domain.User;
 import com.example.websocketdemo.model.ChatMessage;
+import com.example.websocketdemo.service.ChatroomService;
+import com.example.websocketdemo.service.MessageService;
+import com.example.websocketdemo.service.UserService;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -14,6 +20,9 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class ChatController {
 	private final SimpMessagingTemplate template;
+	@Autowired MessageService messageService;
+	@Autowired ChatroomService chatroomService;
+	@Autowired UserService userService;
 
     @Autowired
     public ChatController(SimpMessagingTemplate template) {
@@ -21,12 +30,18 @@ public class ChatController {
     }
     
     @MessageMapping("/chat.sendMessage/{roomId}") // 방 번호 변수로 받기
-    public void sendMessage(@DestinationVariable String roomId, @Payload ChatMessage chatMessage) {
+    public void sendMessage(@DestinationVariable Long roomId, @Payload ChatMessage chatMessage) {
     	// DB Message 테이블에 insert 해야함.
     	// MessageMapping 동적 경로 설정, send 방법
-    	System.out.println("MessageMapping 시작");
-    	System.out.println(roomId);
-    	System.out.println(chatMessage);
+    	
+    	User user = userService.getUserById(chatMessage.getSenderId()); 
+    	Message message = new Message(
+    			user,
+    			chatMessage.getContent(),
+    			chatroomService.getChatroomById(roomId));
+    	
+    	messageService.saveMessage(message);
+    	
     	template.convertAndSend("/topic/" + roomId, chatMessage);
     }
     /*

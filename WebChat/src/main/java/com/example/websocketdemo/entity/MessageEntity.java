@@ -15,6 +15,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import com.example.websocketdemo.domain.Message;
+import com.example.websocketdemo.model.ChatMessage;
 
 @Entity
 @Table(name = "message")
@@ -26,7 +27,7 @@ public class MessageEntity {
 	private Long id; // database에서 sequence number, primary key 역할
 	
 	@ManyToOne
-	@JoinColumn(name="fk_user")
+	@JoinColumn(name="fkUser")
 	private UserEntity user;
 	// 한 명의 유저는 여러 개의 메시지를 작성할 수 있다.
 	// 한 개의 메시지는 하나의 유저를 갖는다.
@@ -39,7 +40,7 @@ public class MessageEntity {
 	private String contents;
 	
 	@ManyToOne
-	@JoinColumn(name="fk_chatroom")
+	@JoinColumn(name="fkChatroom")
 	private ChatroomEntity chatroom;
 	// 한 개의 채팅룸은 여러 개의 메시지를 가질 수 있다.
 	// 한 개의 메시지는 하나의 채팅룸을 갖는다.
@@ -111,12 +112,30 @@ public class MessageEntity {
 	public void buildEntity(Message message) {
 		id=message.getId();
 		UserEntity userEntity = new UserEntity();
-		userEntity.buildEntity(message.getUser());
+		userEntity.buildEntity2(message.getUser());
 		user = userEntity;
 		contents=message.getContents();
 		ChatroomEntity chatroomEntity = new ChatroomEntity();
-		chatroomEntity.buildEntity(message.getChatroom());
+		chatroomEntity.buildEntity2(message.getChatroom());
 		chatroom = chatroomEntity;
+		chatTime = message.getChatTime();
+	}
+	
+	public void buildEntity2(Message message) {
+		id=message.getId();
+		UserEntity userEntity = new UserEntity();
+		userEntity.buildEntity3(message.getUser());
+		user = userEntity;
+		contents=message.getContents();
+		ChatroomEntity chatroomEntity = new ChatroomEntity();
+		chatroomEntity.buildEntity3(message.getChatroom());
+		chatroom = chatroomEntity;
+		chatTime = message.getChatTime();
+	}
+	
+	public void buildEntity3(Message message) {
+		id=message.getId();
+		contents=message.getContents();
 		chatTime = message.getChatTime();
 	}
 }

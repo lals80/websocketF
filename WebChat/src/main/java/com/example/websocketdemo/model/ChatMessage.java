@@ -1,6 +1,7 @@
 package com.example.websocketdemo.model;
 
 public class ChatMessage {
+	private Long senderId;
     private MessageType type;
     private String content;
     private String sender;
@@ -12,12 +13,20 @@ public class ChatMessage {
         LEAVE
     }
     // 열거형 : CHAT=0 JOIN=1 LEAVE=2
+    
+    public Long getSenderId() {
+		return senderId;
+	}
 
+	public void setSenderId(Long senderId) {
+		this.senderId = senderId;
+	}
+	
     public MessageType getType() {
         return type;
     }
 
-    public void setType(MessageType type) {
+	public void setType(MessageType type) {
         this.type = type;
     }
 

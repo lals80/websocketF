@@ -20,9 +20,13 @@ public interface ChatroomService {
 	List<Message> getMessagesByRoomId(Long roomId);
 	
 	Chatroom getChatroomByName(String name);
+	Chatroom getChatroomById(Long roomId);
+	
 	void saveChatroom(Chatroom chatroom); // 생성
 	void updateChatroom(Chatroom chatroom); // 수정
 	void exitChatroom(Chatroom chatroom); // 나가기
 	void deleteChatroom(Chatroom chatroom); // 삭제
 	void saveChatroom2(ChatroomEntity chatroomEntity); // 생성
+
+	
 }

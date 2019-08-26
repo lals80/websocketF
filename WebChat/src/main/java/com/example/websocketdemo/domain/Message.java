@@ -2,9 +2,15 @@ package com.example.websocketdemo.domain;
 
 import java.time.LocalDateTime;
 
-import com.example.websocketdemo.entity.ChatroomEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public class Message {
+import com.example.websocketdemo.entity.ChatroomEntity;
+import com.example.websocketdemo.model.ChatMessage;
+import com.example.websocketdemo.service.ChatroomService;
+import com.example.websocketdemo.service.MessageService;
+import com.example.websocketdemo.service.UserService;
+
+public class Message {	
 	private long id; // primary key
 	private User user; 
 	private String contents;

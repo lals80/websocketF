@@ -84,6 +84,12 @@ public class ChatroomServiceImpl implements ChatroomService {
 		// TODO Auto-generated method stub
 		return repository.findByName(name).buildDomain();
 	}
+	
+	@Override
+	public Chatroom getChatroomById(Long roomId) {
+		// TODO Auto-generated method stub
+		return repository.findById(roomId).buildDomain();
+	}
 
 	@Override
 	public void saveChatroom2(ChatroomEntity chatroomEntity) {

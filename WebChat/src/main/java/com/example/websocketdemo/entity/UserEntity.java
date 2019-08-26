@@ -40,7 +40,7 @@ public class UserEntity {
 	@Column(nullable=false)
 	private String name;
 	
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
 	private List<MessageEntity> messages = new ArrayList<MessageEntity>();
 	
 	@ManyToMany(mappedBy="users")
@@ -140,15 +140,43 @@ public class UserEntity {
 		MessageEntity messageEntity = new MessageEntity();
 		// Message -> MessageEntity
 		for(int i=0;i<user.getMessages().size();i++) {
-			messageEntity.buildEntity(user.getMessages().get(i));
+			messageEntity.buildEntity2(user.getMessages().get(i));
 			messages.add(messageEntity);
 		}
 		
 		ChatroomEntity chatroomEntity = new ChatroomEntity();
 		// Message -> MessageEntity
 		for(int i=0;i<user.getChatrooms().size();i++) {
-			chatroomEntity.buildEntity(user.getChatrooms().get(i));
+			chatroomEntity.buildEntity2(user.getChatrooms().get(i));
 			chatrooms.add(chatroomEntity);
 		}
+	}
+	
+	public void buildEntity2(User user) {
+		id = user.getId();
+		userId = user.getUserId();
+		userPw = user.getUserPw();
+		name = user.getName();
+		
+		MessageEntity messageEntity = new MessageEntity();
+		// Message -> MessageEntity
+		for(int i=0;i<user.getMessages().size();i++) {
+			messageEntity.buildEntity3(user.getMessages().get(i));
+			messages.add(messageEntity);
+		}
+		
+		ChatroomEntity chatroomEntity = new ChatroomEntity();
+		// Message -> MessageEntity
+		for(int i=0;i<user.getChatrooms().size();i++) {
+			chatroomEntity.buildEntity3(user.getChatrooms().get(i));
+			chatrooms.add(chatroomEntity);
+		}
+	}
+	
+	public void buildEntity3(User user) {
+		id = user.getId();
+		userId = user.getUserId();
+		userPw = user.getUserPw();
+		name = user.getName();
 	}
 }

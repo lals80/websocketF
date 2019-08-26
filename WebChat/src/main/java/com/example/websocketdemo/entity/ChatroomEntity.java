@@ -39,7 +39,7 @@ public class ChatroomEntity {
 	// kind : 오픈채팅/비밀채닝/etc... 생략
 	 * 
 	 */
-	@OneToMany(mappedBy="chatroom")
+	@OneToMany(mappedBy="chatroom", fetch = FetchType.EAGER)
 	private List<MessageEntity> messages = new ArrayList<MessageEntity>();
 	
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -86,9 +86,10 @@ public class ChatroomEntity {
 		Chatroom chatroom = new Chatroom();
 		chatroom.setId(id);
 		chatroom.setName(name);
-		for(MessageEntity entity : messages) {
+		System.out.println(messages);
+		for(MessageEntity message : messages) {
 			// List 인터페이스의 size()메서드는 List 내부의 요소들의 갯수를 의미한다.
-			chatroom.getMessages().add(entity.buildDomain2());
+			chatroom.getMessages().add(message.buildDomain2());
 			// List 인터페이스의 add 메서드는 List에 요소를 추가한다.
 			// List 인터페이스의 get 메서드는 List에서 i번째 요소를 return 한다.
 		}
@@ -136,13 +137,35 @@ public class ChatroomEntity {
 		MessageEntity messageEntity = new MessageEntity();
 		// Message -> MessageEntity
 		for(int i=0;i<chatroom.getMessages().size();i++) {
-			messageEntity.buildEntity(chatroom.getMessages().get(i));
+			messageEntity.buildEntity2(chatroom.getMessages().get(i));
 			messages.add(messageEntity);
 		}
 		UserEntity userEntity = new UserEntity();
 		for(int i=0;i<chatroom.getUsers().size();i++) {
-			userEntity.buildEntity(chatroom.getUsers().get(i));
+			userEntity.buildEntity2(chatroom.getUsers().get(i));
 			messages.add(messageEntity);
 		}
+	}
+	
+	public void buildEntity2(Chatroom chatroom) {
+		id = chatroom.getId();
+		name = chatroom.getName();
+		
+		MessageEntity messageEntity = new MessageEntity();
+		// Message -> MessageEntity
+		for(int i=0;i<chatroom.getMessages().size();i++) {
+			messageEntity.buildEntity3(chatroom.getMessages().get(i));
+			messages.add(messageEntity);
+		}
+		UserEntity userEntity = new UserEntity();
+		for(int i=0;i<chatroom.getUsers().size();i++) {
+			userEntity.buildEntity3(chatroom.getUsers().get(i));
+			messages.add(messageEntity);
+		}
+	}
+	
+	public void buildEntity3(Chatroom chatroom) {
+		id = chatroom.getId();
+		name = chatroom.getName();
 	}
 }

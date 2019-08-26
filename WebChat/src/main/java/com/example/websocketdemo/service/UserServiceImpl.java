@@ -33,7 +33,27 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public User getUserById(Long id) {
+		UserEntity userEntity = repository.findById(id);
+		if(userEntity == null)
+			return null;
+		else {
+			System.out.println(id);
+			return userEntity.buildDomain();
+		}
+	}
+	
+	@Override
 	public User getUserByUserId(String userId) {
+		UserEntity userEntity = repository.findByUserId(userId);
+		if(userEntity == null)
+			return null;
+		else
+			return userEntity.buildDomain();
+	}
+	
+	@Override
+	public User getUserByName(String userId) {
 		UserEntity userEntity = repository.findByUserId(userId);
 		if(userEntity == null)
 			return null;
@@ -64,4 +84,6 @@ public class UserServiceImpl implements UserService {
 		
 		repository.delete(entity);
 	}
+
+	
 }
