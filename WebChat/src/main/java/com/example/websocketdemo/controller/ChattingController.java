@@ -44,6 +44,9 @@ public class ChattingController {
 		if (HttpSessionUtils.isLoginUser(session)) {
 			
 			User user = HttpSessionUtils.getUserFromSession(session);
+			user = userService.getUserById(user.getId());
+			session.setAttribute("user", user);
+			
 			model.addAttribute("user", user);
 			model.addAttribute("chatrooms", user.getChatrooms());
 			
@@ -109,7 +112,7 @@ public class ChattingController {
 			userentity.buildEntity(user);
 			savedChatroom.addUser(userentity);
 			
-			chatroomService.saveChatroom2(savedChatroom);
+			// chatroomService.saveChatroom2(savedChatroom);
 			
 			UserEntity userentity2 = new UserEntity();
 			userentity2.buildEntity(otherUser);
