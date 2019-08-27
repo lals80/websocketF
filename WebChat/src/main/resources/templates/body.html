@@ -5,8 +5,7 @@
 	xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<th:block th:include="fragments/meta"></th:block>
-	<link rel="stylesheet" href="/main.css"/>
+	<th:block th:include="fragments/head"></th:block>
 </head>
 
 <body>
@@ -20,20 +19,23 @@
 			
 			<div class="app-main__outer">
 				<div class="app-main__inner">
+					<!-- 
 					<div class="app-page-title">
 						<div class="page-title-wrapper">
 							<div class="page-title-heading">
 								<div class="page-title-icon">
-									<i class="pe-7s-phone icon-gradient bg-night-fade"></i>
+									<i class="pe-7s-smile icon-gradient bg-night-fade"></i>
 								</div>
-								<div>Icons
+								<div>
+									회원 정보
 									<div class="page-title-subheading">
-										Wide icons selection including from flag icons to FontAwesome and other icons libraries.
+										~ 님의 회원 정보입니다.
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+					-->
 								
 					<div class="tab-content">
 						<div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
@@ -41,7 +43,7 @@
 								<div class="col-md-12">
 									<div class="main-card mb-3 card">
 										<div class="card-body">
-											<h5 class="card-title">Gradient Icons</h5>
+											<h5 class="card-title">회원정보</h5>
 											<!-- contents-page -->
 										</div>
 									</div>
@@ -54,5 +56,8 @@
 		</div>
 	</div>
 <script type="text/javascript" src="./assets/scripts/main.js"></script>
+<script>
+	document.title = "회원 정보" ;
+</script>
 </body> 
 </html>

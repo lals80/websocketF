@@ -1,33 +1,123 @@
-		<div class="scrollbar-sidebar">
-                        <div class="app-sidebar__inner">
-                            <ul class="vertical-nav-menu">
-                                <li class="app-sidebar__heading">Dashboards</li>
-                                <li>
-                                    <a href="index.html" class="mm-active">
-                                        <i class="metismenu-icon pe-7s-rocket"></i>
-                                        <span th:text="${user.name}" />��
-                                    </a>
-                                </li>
-                                <li class="app-sidebar__heading">UI Components</li>
-                                <li>
-                                    <a href="/user">
-                                        <i class="metismenu-icon pe-7s-display2"></i>
-                                        	ȸ������
-                                    </a>
-                                </li>
- 								<li>
-                                    <a href="tables-regular.html">
-                                        <i class="metismenu-icon pe-7s-display2"></i>
-                                        Tables
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/logout.do">
-                                        <i class="metismenu-icon pe-7s-display2"></i>
-                                       	 �α׾ƿ�
-                                    </a>
-                                </li>
+		<div class="app-sidebar sidebar-shadow">
+			<div class="app-header__logo">
+				<div class="logo-src"></div>
+				<div class="header__pane ml-auto">
+					<div>
+						<button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
+							<span class="hamburger-box">
+								<span class="hamburger-inner"></span>
+							</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="app-header__mobile-menu">
+				<div>
+					<button type="button" class="hamburger hamburger--elastic mobile-toggle-nav">
+						<span class="hamburger-box">
+							<span class="hamburger-inner"></span>
+						</span>
+					</button>
+				</div>
+			</div>
+			<div class="app-header__menu">
+				<span>
+					<button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+						<span class="btn-icon-wrapper">
+							<i class="fa fa-ellipsis-v fa-w-6"></i>
+						</span>
+					</button>
+				</span>
+			</div>
+			
+			<!-- sidebar 예시
+			<div class="scrollbar-sidebar">
+				<div class="app-sidebar__inner">
+					<ul class="vertical-nav-menu">
+						<li class="app-sidebar__heading">Dashboards</li>
+						<li>
+							<a href="index.html">
+								<i class="metismenu-icon pe-7s-rocket"></i>
+								Dashboard Example 1
+							</a>
+						</li>
+						<li class="app-sidebar__heading">UI Components</li>						
+						<li>
+							<a href="#">
+								<i class="metismenu-icon pe-7s-car"></i>
+								Components
+								<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+							</a>
+							<ul>
+								<li>
+									<a href="components-tabs.html">
+										<i class="metismenu-icon"></i>
+										Tabs
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+			-->
+			
+			<div class="scrollbar-sidebar">
+				<div class="app-sidebar__inner">
+					<ul class="vertical-nav-menu">
+						<li class="app-sidebar__heading">회원 메뉴</li>
 
-                            </ul>
-                        </div>
-                    </div>
+							<li>
+								<a href="/user">
+									<i class="metismenu-icon pe-7s-smile"></i>
+									회원 정보
+								</a>
+							</li>
+							
+							<li>
+								<a href="/user">
+									<i class="metismenu-icon pe-7s-refresh"></i>
+									회원 정보 수정
+								</a>
+							</li>
+							
+							<li>
+								<a href="/logout.do">
+									<i class="metismenu-icon pe-7s-power"></i>
+									로그아웃
+								</a>
+							</li>
+							
+							<li>
+								<a href="/user">
+									<i class="metismenu-icon pe-7s-delete-user"></i>
+									회원 탈퇴
+								</a>
+							</li>
+						<li class="app-sidebar__heading">채팅 메뉴</li>
+							
+							<li>
+								<a href="/chattings">
+									<i class="metismenu-icon pe-7s-chat"></i>
+									채팅 목록
+								</a>
+							</li>
+							
+							<li>
+								<a href="/chattings/form">
+									<i class="metismenu-icon pe-7s-plus"></i>
+									채팅방 만들기
+								</a>
+							</li>
+							
+						<li class="app-sidebar__heading">기타</li>
+							<li>
+								<a href="/user">
+									<i class="metismenu-icon pe-7s-users"></i>
+									제작자 정보
+								</a>
+							</li>
+					</ul>
+				</div>
+			</div>
+		</div>
