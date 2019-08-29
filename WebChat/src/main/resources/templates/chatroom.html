@@ -9,13 +9,14 @@
 	<th:block th:include="fragments/head"></th:block>
 	
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-	<link rel="stylesheet" href="//unpkg.com/bootstrap@4/dist/css/bootstrap.min.css"/>
+	
 	<script src='//unpkg.com/jquery@3/dist/jquery.min.js'></script>
 	<script src='//unpkg.com/popper.js@1/dist/umd/popper.min.js'></script>
 	<script src='//unpkg.com/bootstrap@4/dist/js/bootstrap.min.js'></script>
 	<script src="/js/sockjs.min.js"></script>
 	<script src="/js/stomp.min.js"></script>
 	<script src="/js/cookie.js"></script>
+	<link rel="stylesheet" href="/css/main.css" />
 </head>
 
 <body>
@@ -51,7 +52,9 @@
 																<button type="submit" class="primary">Send</button>
 															</div>
 														</div>
-												
+												<div th:each="user : ${users}">
+													<span th:text="${user.name}"></span>
+												</div>
 							</div>
 								</form>
 												
@@ -60,6 +63,7 @@
 				</div>
 			</div>
 		</div>
+		
 
 <script th:inline="javascript">//<![CDATA[
 		'use strict';
@@ -98,8 +102,11 @@
 			        messageElement.appendChild(avatarElement);
 	
 			        var usernameElement = document.createElement('span');
-			        var usernameText = document.createTextNode(element.user.name);
+			        var usernameText = document.createTextNode(element.chatTime);
+			        var dateText = document.createTextNode(Date.now());
+			        
 			        usernameElement.appendChild(usernameText);
+			        usernameElement.appendChild(dateText);
 			        messageElement.appendChild(usernameElement);
 			        // username 띄우기
 			    }
@@ -197,7 +204,8 @@
 			        messageElement.appendChild(avatarElement);
 	
 			        var usernameElement = document.createElement('span');
-			        var usernameText = document.createTextNode(message.sender);
+			        // var usernameText = document.createTextNode(message.sender);
+			        var usernameText = document.createTextNode(formatDate(message.chatTime));
 			        usernameElement.appendChild(usernameText);
 			        messageElement.appendChild(usernameElement);
 			        // username 띄우기
@@ -227,6 +235,12 @@
 		    var index = Math.abs(hash % colors.length);
 		    return colors[index];
 		    // 아바타 색 랜덤 지정
+		}
+		
+		function formatDate(date) {
+			return 
+			date.getHours() + '시 ' + 
+			date.getMinutes() + '분';
 		}
 		
 		var messageForm = document.querySelector('#messageForm');

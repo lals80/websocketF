@@ -1,11 +1,14 @@
 package com.example.websocketdemo.model;
 
+import java.time.LocalDateTime;
+
 public class ChatMessage {
 	private Long senderId;
     private MessageType type;
     private String content;
     private String sender;
     private Long roomId;
+    private LocalDateTime chatTime;
 
     public enum MessageType {
         CHAT,
@@ -53,4 +56,13 @@ public class ChatMessage {
 	public void setRoomId(Long roomId) {
 		this.roomId = roomId;
 	}
+
+	public LocalDateTime getChatTime() {
+		return chatTime;
+	}
+
+	public void setChatTime(LocalDateTime chatTime) {
+		this.chatTime = chatTime;
+	}
+	
 }

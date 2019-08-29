@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html
 	lang="ko"
@@ -40,14 +41,21 @@
 															</tr>
 														</thead>
 														<tbody>
-															<tr th:each="chatroom : ${chatrooms}" th:onClick="'goToChatroom(\'' + ${chatroom.id} + '\')'">
+															<tr th:each="chatroom : ${chatrooms}" th:onClick="'goToChatroom(\'' + ${chatroom.id} + '\')'" >
+															<th:block th:with="x=${chatroom.messages.size()-1}">
 																<td class="text-center text-muted"><span th:text="${chatroom.name}"></span></td>
-																<td></td><td></td><td></td>
-																<!-- 
-																<td class="text-center text-muted"><span th:text="${chatroom.getLastMessage()}"></span></td>
-																<td class="text-center text-muted"><span th:text="${chatroom.getManagerName()}"></span></td>
-																<td class="text-center text-muted"><span th:text="${chatroom.getCount()}"></span></td>
+															
+																<td class="text-center text-muted">
+																
+																<span th:text="(${chatroom.messages.size() != 0}) ? ${chatroom.messages[x].contents} : '작성된 메시지가 없습니다.'"></span>
+																<!--
+																  
+																<span th:text="${chatroom.messages[x].contents}"></span>
 																-->
+																</td>
+																<td class="text-center text-muted"><span th:text="${chatroom.users[0].name}"></span></td>
+																<td class="text-center text-muted"><span th:text="${chatroom.users.size()}"></span></td>
+															</th:block>
 															</tr>
 														</tbody>
 													</table>

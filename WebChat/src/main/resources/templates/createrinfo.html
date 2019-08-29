@@ -7,6 +7,12 @@
 
 <head>
 	<th:block th:include="fragments/head"></th:block>
+	
+	<script src="RGraph.common.core.js"></script>
+	<script src="RGraph.common.dynamic.js"></script>
+	<script src="RGraph.common.tooltips.js"></script>
+	<script src="RGraph.common.effects.js"></script>
+	<script src="RGraph.radar.js"></script>
 </head>
 
 <body>
@@ -30,97 +36,113 @@
 											<!-- contents-page -->
 											
 											<div class="tab-content">
-													<div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
-														<div class="row">
-												
-															<div class="col-md-6">
-																<div class="mb-3 card">
-																	<div class="card-header-tab card-header">
-																		<div class="card-header-title">
-																			<i class="header-icon lnr-bicycle icon-gradient bg-love-kiss"> </i>
-																			김준하
-																		</div>
-																	</div>
-																	<div class="card-body">
-																		<div class="tab-content">
-																			<div class="tab-pane active" id="tab-eg5-0" role="tabpanel">
+												<div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+													<div class="row">
+											
+														<div class="col-md-6">
+															<div class="mb-3 card">
+																<!-- 여기부터 -->
+																<div class="card-body">
+																	<div class="tab-content">
+																		<div class="tab-pane active" id="tab-eg5-0" role="tabpanel">
+																			<div class="widget-content p-0">
+																				<div class="widget-content-wrapper">
+																					<div class="widget-content-left mr-3">
+																						<img width="100" class="rounded-circle" src="images/avatar1.jpg" alt=""/>
+																					</div>
+																					<div class="widget-content-left">
+																						<div class="widget-heading" style="font-size:40px;">Junha Kim</div>
+																						<div class="widget-subheading" style="font-size:30px;">Project Leader</div>
+																					</div>
+																					
+																				</div>
+																			</div>
+																			<br/><br/>
 																			
 																			<p>
-																			비고
+																				작업순서<br/>
+																				image 추가 후 이미지 경로 변경<br/>
+																				이름과 역할 변경<br/>
+																				간단한 자기소개문 작성<br/><br/>
+																				
+																				이번 프로젝트의 버스기사를 맡았다...<br/><br/><br/><br/><br/><br/><br/><br/>
+																				하아.................<br/><br/><br/><br/><br/><br/><br/>
+																				한숨따위는 쉬지 않는, 성격이 무척 밝은 것이 특징인 인재이다					
 																			</p>
-																			
-																			</div>
+																		<canvas id="cvs" width="500" height="400">
+																		    [No canvas support]
+																		</canvas>
 																		</div>
 																	</div>
 																</div>
-																<div class="mb-3 card">
-																	<div class="card-header-tab card-header">
-																		<div class="card-header-title">
-																			<i class="header-icon lnr-bicycle icon-gradient bg-love-kiss"> </i>
-																			성상욱
-																		</div>
-																	</div>
-																	<div class="card-body">
-																		<div class="tab-content">
-																			<div class="tab-pane active" id="tab-eg5-0" role="tabpanel">
-																			
-																			<p>
-																			비고
-																			</p>
-																			
-																			</div>
-																		</div>
-																	</div>
-																</div>
+																<!-- 여기까지 -->
 															</div>
-												
-															<div class="col-md-6">
-																<div class="mb-3 card">
-																	<div class="card-header-tab card-header">
-																		<div class="card-header-title">
-																			<i class="header-icon lnr-bicycle icon-gradient bg-love-kiss"> </i>
-																			이대훈
-																		</div>
+															<div class="mb-3 card">
+																<div class="card-header-tab card-header">
+																	<div class="card-header-title">
+																		<i class="header-icon lnr-bicycle icon-gradient bg-love-kiss"> </i>
+																		성상욱
 																	</div>
-																	<div class="card-body">
-																		<div class="tab-content">
-																			<div class="tab-pane active" id="tab-eg5-0" role="tabpanel">
-																			
-																			<p>
-																			비고
-																			
-																			</p>
-																			
-																			</div>
+																</div>
+																<div class="card-body">
+																	<div class="tab-content">
+																		<div class="tab-pane active" id="tab-eg5-0" role="tabpanel">
+																		
+																		<p>
+																		비고
+																		</p>
+																		
 																		</div>
 																	</div>
 																</div>
-																<div class="mb-3 card">
-																	<div class="card-header-tab card-header">
-																		<div class="card-header-title">
-																			<i class="header-icon lnr-bicycle icon-gradient bg-love-kiss"> </i>
-																			홍현교
-																		</div>
-																	</div>
-																	<div class="card-body">
-																		<div class="tab-content">
-																			<div class="tab-pane active" id="tab-eg5-0" role="tabpanel">
-																			
-																			<p>
-																			비고
-																			</p>
-																			
-																			</div>
-																		</div>
-																	</div>
-																</div>
-														
 															</div>
 														</div>
-													</div>
-
+											
+														<div class="col-md-6">
+															<div class="mb-3 card">
+																<div class="card-header-tab card-header">
+																	<div class="card-header-title">
+																		<i class="header-icon lnr-bicycle icon-gradient bg-love-kiss"> </i>
+																		이대훈
+																	</div>
+																</div>
+																<div class="card-body">
+																	<div class="tab-content">
+																		<div class="tab-pane active" id="tab-eg5-0" role="tabpanel">
+																		
+																		<p>
+																		비고
+																		
+																		</p>
+																		
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="mb-3 card">
+																<div class="card-header-tab card-header">
+																	<div class="card-header-title">
+																		<i class="header-icon lnr-bicycle icon-gradient bg-love-kiss"> </i>
+																		홍현교
+																	</div>
+																</div>
+																<div class="card-body">
+																	<div class="tab-content">
+																		<div class="tab-pane active" id="tab-eg5-0" role="tabpanel">
+																		
+																			<p>
+																			비고
+																			</p>
+																		
+																		</div>
+																	</div>
+																</div>
+															</div>
+													
+														</div>
 													</div>
 												</div>
+
 											</div>
 										</div>
 									</div>
@@ -130,10 +152,40 @@
 					</div>
 				</div>
 			</div>
-									
+		</div>
+	</div>
+		
 <script type="text/javascript" src="./assets/scripts/main.js"></script>
 <script>
 	document.title = "제작자 정보" ;
+	data = [
+		[16,18,14,15,14,13,16,18],
+		[16,15,14,16,18,16,15,14]
+	];
+	
+	
+		
+	
+	new RGraph.Radar({
+        id: 'cvs',
+        data: [
+            [8,7,6,7,8,6],
+            [8,9,4,6,6,8]
+        ],
+        options: {
+            backgroundCirclesPoly: true,
+            backgroundCirclesSpacing: 30,
+            colors: ['transparent'],
+            axesColor: 'transparent',
+            highlights: true,
+            colorsStroke: ['red', 'black'],
+            linewidth: 3,
+            labels: ['', 'Barry', 'Gary','Dave','Paul','Rich'],
+            labelsAxes: 'n',
+            textSize: 16
+        }
+    }).trace();
+	
 </script>
 </body> 
 </html>

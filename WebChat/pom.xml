@@ -85,6 +85,11 @@
 		    <version>1.18.8</version>
 		    <scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>rgraph</artifactId>
+			<version>4.66-stable</version>
+		</dependency>
 	</dependencies>
 
 	<build>
