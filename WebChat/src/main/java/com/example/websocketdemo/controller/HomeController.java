@@ -107,4 +107,9 @@ public class HomeController {
 	public String test(Model model, HttpSession session) {
 		return "body";
 	}
+	
+	@GetMapping("/creater")
+	public String creater(Model model, HttpSession session) {
+		return "createrinfo";
+	}
 }

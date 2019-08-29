@@ -83,8 +83,9 @@ public class ChattingController {
 			
 			model.addAttribute("user", user);
 			List<User> userlist = userService.getUsers();
+			userlist.remove(user);
 			model.addAttribute("userlist", userlist);
-			return "registerchatroom";
+			return "registerchatroom2";
 		// 로그인 되어 있지 않은 경우
 		} else {
 			return "redirect:/login";
@@ -99,26 +100,29 @@ public class ChattingController {
 		if (HttpSessionUtils.isLoginUser(session)) {
 			User user = HttpSessionUtils.getUserFromSession(session);
 			// 현재 유저 정보는 session, 다른 유저정보랑 채팅방 이름 form에서 들고오고
-			// 각각 repository에 적용시킨다. 
-			String otherUserId = request.getParameter("otherUserId");
-			User otherUser = new User();
+			// 각각 repository에 적용시킨다.
 			
-			otherUser = userService.getUserByUserId(otherUserId);
 			chatroomService.saveChatroom(formChatroom);
 			ChatroomEntity savedChatroom = new ChatroomEntity();
 			savedChatroom.buildEntity(chatroomService.getChatroomByName(formChatroom.getName()));
+			
+			String[] otherUserIds = request.getParameterValues("otherUserId");
 			
 			UserEntity userentity = new UserEntity();
 			userentity.buildEntity(user);
 			savedChatroom.addUser(userentity);
 			
-			// chatroomService.saveChatroom2(savedChatroom);
-			
-			UserEntity userentity2 = new UserEntity();
-			userentity2.buildEntity(otherUser);
-			savedChatroom.addUser(userentity2);
+			if(otherUserIds !=null) for (String otherUserId : otherUserIds) {
+				User otherUser = new User();
+				System.out.println(otherUserId);
+				
+				otherUser = userService.getUserById(Long.valueOf(otherUserId));
+				
+				UserEntity otherUserEntity = new UserEntity();
+				otherUserEntity.buildEntity(otherUser);
+				savedChatroom.addUser(otherUserEntity);
+			}
 			chatroomService.saveChatroom2(savedChatroom);
-			
 			return "redirect:/chattings";
 		// 로그인 되어 있지 않은 경우
 		} else {

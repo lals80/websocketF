@@ -7,7 +7,7 @@ import com.example.websocketdemo.entity.ChatroomEntity;
 import com.example.websocketdemo.entity.MessageEntity;
 
 public class User {
-	private long id; // primary key
+	private Long id; // primary key
 	private String userId; // unique key
 	private String userPw;	
 	private String name;
@@ -22,10 +22,10 @@ public class User {
 		this.name = name;
 	}
 	
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getUserId() {

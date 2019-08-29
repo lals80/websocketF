@@ -65,8 +65,7 @@
 			<div class="scrollbar-sidebar">
 				<div class="app-sidebar__inner">
 					<ul class="vertical-nav-menu">
-						<li class="app-sidebar__heading">회원 메뉴</li>
-
+						<li class="app-sidebar__heading" >회원 메뉴</li>
 							<li>
 								<a href="/user">
 									<i class="metismenu-icon pe-7s-smile"></i>
@@ -94,6 +93,21 @@
 									회원 탈퇴
 								</a>
 							</li>
+						<!-- 
+							li태그에 th:unless="${session.user}" or th:if="${session.user}" 사용 
+							<li>
+								<a href="/login">
+									<i class="metismenu-icon pe-7s-users"></i>
+									로그인
+								</a>
+							</li>
+							<li>
+								<a href="/user/form">
+									<i class="metismenu-icon pe-7s-users"></i>
+									회원가입
+								</a>
+							</li>
+						-->
 						<li class="app-sidebar__heading">채팅 메뉴</li>
 							
 							<li>
@@ -109,10 +123,9 @@
 									채팅방 만들기
 								</a>
 							</li>
-							
 						<li class="app-sidebar__heading">기타</li>
 							<li>
-								<a href="/user">
+								<a href="/creater">
 									<i class="metismenu-icon pe-7s-users"></i>
 									제작자 정보
 								</a>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html
+	lang="ko"
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<th:block th:include="fragments/head"></th:block>
+
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+
+<body>
+	<div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
+		
+		<th:block th:include="fragments/header"></th:block>
+		
+		<div class="app-main">
+		
+			<th:block th:include="fragments/sidebar"></th:block>
+			
+			<div class="app-main__outer">
+				<div class="app-main__inner">
+					<div class="tab-content">
+						<div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="main-card mb-3 card">
+										<div class="card-body">
+											<h5 class="card-title">채팅방 만들기</h5>
+											
+											<form id="chatroomRegisterForm" th:object="${chatroom}">
+												<div class="card-body">
+													<div class="input-group">
+														<div class="input-group-prepend">
+															<span class="input-group-text">채팅방 이름</span>
+														</div>
+														<input type="text" class="form-control" th:field="*{name}"/>
+													</div>
+													<br/>
+													
+		
+													<div class="search-wrapper active" style="width:100%;margin-bottom:10px;">
+														<div class="input-holder" style="width:100%">
+															<input type="text" class="search-input" id="search" placeholder="Type to search"/>
+															<button class="search-icon" disabled="disabled" style="cursor:default;"><span></span></button>
+														</div>
+													</div>
+													
+													<div id="bedge">
+													
+													</div>
+													
+													<div class="scroll-area-lg" style="border-style:solid; border-width:1px; border-color:lightgray">
+														<div class="scrollbar-container ps--active-y">
+																<ul class="list-group">
+																	<li th:each="user : ${userlist}">
+																		<button th:id="'user_'+${user.id}" class="list-group-item-action list-group-item" th:onClick="'userAdd(\'' + ${user.id} + '\', \'' + ${user.name} + '\')'"><span th:text="${user.name}"></span></button>
+																	</li>
+																</ul>
+														</div>
+													</div>
+													<br/>
+													<div align="right">
+														<button class="btn btn-success btn-lg" onClick="makeChatroom();">만들기</button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	
+	<script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+	<script type="text/javascript" src="/assets/scripts/main.js"></script>
+	<script src="/js/main2.js"></script>
+	<script src="/js/chatlist.js"></script>
+	<script src="/js/user.js"></script>
+	<script>
+		document.title = "채팅방 만들기" ;
+		
+		function userAdd(id, name) {
+			$('#user_'+id).addClass('active');
+			$('#user_'+id).attr("onclick", "userRemove('"+id+"', '"+name+"')");
+			
+			$("div #bedge").append(
+				'<div id="bedge_user_' + id + '" class="mb-2 mr-2 badge badge-pill badge-primary" style="text-transform:none;">'
+					+ name + 
+					'<span onclick="userRemove(\'' + id + '\', \'' + name + '\')" style="cursor:pointer;color:white;font-family:Zapf Dingbats;"> ' +  
+						'&#x2716;' + 
+					'</span>' + 
+					'<input type="hidden" name="otherUserId" value="' + id + '"/>' +
+				'</div>');
+			event.preventDefault();
+		}
+		
+		function userRemove(id, name) {
+			$('#user_'+id).removeClass('active');
+			$('#user_'+id).attr("onclick", "userAdd('"+id+"', '"+name+"')");
+			
+			$('#bedge_user_'+id).remove();
+		    
+			event.preventDefault();
+		}
+		/*
+		$('#search').on('propertychange change keyup paste input', function(){
+			
+			$.ajax({
+				url: "requestObject",
+				contentType: "application/json",
+				type: "GET",
+				data: $('#search').val(),
+				cache: false,
+				
+				success: function(data) {
+					$('#result').text(data);
+				},
+				error: function() {
+					alert("simpleWithObject err");
+				}
+			});
+			
+			
+		});
+		
+		
+		$(document).ready(function () {
+			$("#chatroomRegisterForm").submit(function (event) {
+				//stop submit the form, we will post it manually.
+				event.preventDefault();
+				fire_ajax_submit();
+			});
+		});
+
+		function fire_ajax_submit() {
+			var search = {}
+			search["username"] = $("#username").val();
+
+			$("#btn-search").prop("disabled", true);
+
+			$.ajax({
+				type: "POST",
+				contentType: "application/json",
+				url: "/api/search",
+				data: JSON.stringify(search),
+				dataType: 'json',
+				cache: false,
+				timeout: 600000,
+				success: function (data) {
+				var json = "<h4>Ajax Response</h4><pre>"
+				+ JSON.stringify(data, null, 4) + "</pre>";
+				$('#feedback').html(json);
+
+				console.log("SUCCESS : ", data);
+				$("#btn-search").prop("disabled", false);
+				}, error: function (e) {
+				var json = "<h4>Ajax Response</h4><pre>"
+				+ e.responseText + "</pre>";
+				$('#feedback').html(json);
+
+				console.log("ERROR : ", e);
+				$("#btn-search").prop("disabled", false);
+				}
+			});
+			
+		}
+		*/
+		
+		function makeChatroom() {
+			$("#chatroomRegisterForm").attr("method", "post");
+			$("#chatroomRegisterForm").attr("action", "/chattings");
+			$("#chatroomRegisterForm").submit();
+			
+			event.preventDefault();
+		}
+	</script>
+</body> 
+</html>
