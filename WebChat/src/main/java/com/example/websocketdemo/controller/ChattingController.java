@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.websocketdemo.domain.Chatroom;
@@ -25,6 +26,7 @@ import com.example.websocketdemo.domain.Message;
 import com.example.websocketdemo.domain.User;
 import com.example.websocketdemo.entity.ChatroomEntity;
 import com.example.websocketdemo.entity.UserEntity;
+import com.example.websocketdemo.model.SearchMessage;
 import com.example.websocketdemo.service.ChatroomService;
 import com.example.websocketdemo.service.UserService;
 import com.example.websocketdemo.HttpSessionUtils;
@@ -91,6 +93,24 @@ public class ChattingController {
 		// 로그인 되어 있지 않은 경우
 		} else {
 			return "redirect:/login";
+		}
+	}
+	
+	@GetMapping("/search")
+	@ResponseBody
+	public List<User> search(SearchMessage search, HttpSession session, Model model) {
+		// 로그인 되어 있는 경우
+		if (HttpSessionUtils.isLoginUser(session)) {
+			User user = HttpSessionUtils.getUserFromSession(session);
+			
+			List<User> userlist = userService.getUsersByName(search.getName());
+			userlist.remove(user);
+			for(User user2 : userlist) System.out.println(user2.getName());
+			return userlist;
+			
+		// 로그인 되어 있지 않은 경우
+		} else {
+			return null;
 		}
 	}
 	

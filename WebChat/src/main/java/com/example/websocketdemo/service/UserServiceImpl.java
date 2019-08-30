@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.websocketdemo.domain.User;
+import com.example.websocketdemo.entity.MessageEntity;
 import com.example.websocketdemo.entity.UserEntity;
 import com.example.websocketdemo.exception.ResourceNotFoundException;
 import com.example.websocketdemo.repository.UserRepository;
@@ -53,12 +54,18 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public User getUserByName(String userId) {
-		UserEntity userEntity = repository.findByUserId(userId);
-		if(userEntity == null)
+	public List<User> getUsersByName(String userId) {
+		List<UserEntity> userEntities = repository.findByNameContaining(userId);
+		if(userEntities == null)
 			return null;
-		else
-			return userEntity.buildDomain();
+		else {
+			List<User> users = new ArrayList<User>();
+			
+			for(UserEntity userEntity : userEntities) {
+				users.add(userEntity.buildDomain());
+			}
+			return users;
+		}
 	}
 	
 	@Override

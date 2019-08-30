@@ -13,7 +13,7 @@ public interface UserService {
 	List<User> getUsers();
 	User getUserById(Long userId); // primary key에 해당하는 id로  조회
 	User getUserByUserId(String userId); // primary key에 해당하는 id로  조회
-	User getUserByName(String name);
+	List<User> getUsersByName(String name);
 	void saveUser(User user); // 생성
 	void updateUser(User user); // 수정
 	void deleteUser(User user); // 삭제

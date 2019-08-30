@@ -110,90 +110,43 @@
 			event.preventDefault();
 		}
 		
-		$('#search').on('propertychange change keyup paste input', function(){
-			type: "POST",
-			contentType: "application/json",
-			url: "/api/search",
-			data: JSON.stringify(search),
-			dataType: 'json',
-			cache: false,
-			timeout: 600000,
-			success: function (data) {
-			var json = "<h4>Ajax Response</h4><pre>"
-			+ JSON.stringify(data, null, 4) + "</pre>";
-			$('#feedback').html(json);
-
-			console.log("SUCCESS : ", data);
-			$("#btn-search").prop("disabled", false);
-			}, error: function (e) {
-			var json = "<h4>Ajax Response</h4><pre>"
-			+ e.responseText + "</pre>";
-			$('#feedback').html(json);
-
-			console.log("ERROR : ", e);
-			$("#btn-search").prop("disabled", false);
-			}
+		$('#search').on('propertychange change keyup paste input', function(event){
+			var searchForm = {
+			    name: $('#search').val()
+			};
+			
 			$.ajax({
 				type: "GET",
-				contentType: "application/json",
-				url: "/chatting",
-				data: $('#search').val(),
-				cache: false,
-				
-				success: function(data) {
-					$('#result').text(data);
-				},
-				error: function() {
-					alert("simpleWithObject err");
-				}
-			});
-			
-			
-		});
-		
-		/*
-		$(document).ready(function () {
-			$("#chatroomRegisterForm").submit(function (event) {
-				//stop submit the form, we will post it manually.
-				event.preventDefault();
-				fire_ajax_submit();
-			});
-		});
-
-		function fire_ajax_submit() {
-			var search = {}
-			search["username"] = $("#username").val();
-
-			$("#btn-search").prop("disabled", true);
-
-			$.ajax({
-				type: "POST",
-				contentType: "application/json",
-				url: "/api/search",
-				data: JSON.stringify(search),
-				dataType: 'json',
+				contentType: 'application/json',
+				url: "/chattings/search",
+				data: searchForm,
+				dataType: "json",
 				cache: false,
 				timeout: 600000,
-				success: function (data) {
-				var json = "<h4>Ajax Response</h4><pre>"
-				+ JSON.stringify(data, null, 4) + "</pre>";
-				$('#feedback').html(json);
-
-				console.log("SUCCESS : ", data);
-				$("#btn-search").prop("disabled", false);
+				success: function (userlist) {
+					$('.list-group').html("");
+					userlist.forEach(function(element) {
+						//   onClick="userAdd(\"' + element.id + '\", \"' + element.name + '\")"
+						$('.list-group').append('<button id="user_' + element.id + '" class="list-group-item-action list-group-item">' + element.name + '</button>');
+						
+						if($('#bedge_user_'+element.id).length!=0) {
+							$('#user_' + element.id).addClass("active");
+							var attr="userRemove('" + element.id + "', '" + element.name + "')";
+						} else {
+							var attr="userAdd('" + element.id + "', '" + element.name + "')";
+						}
+						
+						$('#user_' + element.id).attr("onClick", attr);
+					});
+					console.log("SUCCESS : ", data);				
 				}, error: function (e) {
-				var json = "<h4>Ajax Response</h4><pre>"
-				+ e.responseText + "</pre>";
-				$('#feedback').html(json);
-
-				console.log("ERROR : ", e);
-				$("#btn-search").prop("disabled", false);
+					console.log("ERROR : ", e);
 				}
 			});
 			
-		}
-		*/
-		
+			event.preventDefault();
+		});
+				
 		function makeChatroom() {
 			$("#chatroomRegisterForm").attr("method", "post");
 			$("#chatroomRegisterForm").attr("action", "/chattings");
