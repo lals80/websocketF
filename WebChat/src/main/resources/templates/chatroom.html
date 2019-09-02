@@ -9,14 +9,33 @@
 	<th:block th:include="fragments/head"></th:block>
 	
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-	
+	<link rel="stylesheet" href="//unpkg.com/bootstrap@4/dist/css/bootstrap.min.css"/>
 	<script src='//unpkg.com/jquery@3/dist/jquery.min.js'></script>
 	<script src='//unpkg.com/popper.js@1/dist/umd/popper.min.js'></script>
 	<script src='//unpkg.com/bootstrap@4/dist/js/bootstrap.min.js'></script>
 	<script src="/js/sockjs.min.js"></script>
 	<script src="/js/stomp.min.js"></script>
 	<script src="/js/cookie.js"></script>
-	<link rel="stylesheet" href="/css/main.css" />
+	
+	<link rel="stylesheet" href="/css/main.css"/>
+	<style>
+#container {
+  display: flex;
+}
+#box-left {
+
+  flex: 1;
+}
+#box-center {
+
+  flex: 3;
+  text-align: center;
+}
+#box-right {
+  flex: 0.5;
+  text-align: right;
+}
+</style>
 </head>
 
 <body>
@@ -28,42 +47,49 @@
 		
 		<th:block th:include="fragments/sidebar"></th:block>
 			
-						<div class="app-main__outer">
-							<div class="app-main__inner">					
+			<div class="app-main__outer">
+				<div class="app-main__inner">					
+					<div id="contents-page">
+						<form id="messageForm" name="messageForm" nameForm="messageForm" th:object="${chatroom}" method="post">
+							<div class="chat-container">
+								<div class="chat-header" id="container">
+									<div id="box-left"></div>
+									<div id="box-center"><h2>채팅방이름</h2></div>
+									<div id="box-right"><button id="btnexit" class="btn btn-success btn-lg">나가기</button></div>
+								</div>
 								
+								<div class="connecting">
+									Connecting...
+								</div>
+								<div>
+								<table>
+								<td width="90%"><ul id="messageArea">
 									
-														<div id="contents-page">
-														<form id="messageForm" name="messageForm" nameForm="messageForm">
-															<div class="chat-container">
-																<div class="chat-header">
-																	<h2>채팅방이름</h2>
-																</div>
-																<div class="connecting">
-																	Connecting...
-																</div>
-																
-													<ul id="messageArea">
-												
-													</ul>
-													
-														<div class="form-group">
-															<div class="input-group clearfix">
-																<input type="text" id="message" placeholder="Type a message..." autocomplete="off" class="form-control"/>
-																<button type="submit" class="primary">Send</button>
-															</div>
-														</div>
-												<div th:each="user : ${users}">
-													<span th:text="${user.name}"></span>
-												</div>
+								</ul></td>
+								
+								<td width="10%">
+								<ul class="list-group" style="overflow-y:hidden">
+								
+									<li class="list-group-item-success list-group-item" th:each="user : ${users}">
+										<span th:text="${user.name}"></span>
+									</li>
+								</ul>
+								</td>
+								</table>
+								</div>
+								<div class="form-group">
+									<div class="input-group clearfix">
+										<input type="text" id="message" placeholder="Type a message..." autocomplete="off" class="form-control"/>
+										<button type="submit" class="primary">Send</button>
+									</div>
+								</div>					
 							</div>
-								</form>
-												
-						</div>
+						</form>	
 					</div>
 				</div>
 			</div>
 		</div>
-		
+	</div>
 
 <script th:inline="javascript">//<![CDATA[
 		'use strict';
@@ -237,6 +263,20 @@
 		    // 아바타 색 랜덤 지정
 		}
 		
+		function exit() {
+			form.action="/chattings";
+			form.setAttribute('method', 'delete');
+			form.submit();
+		}
+		
+		$(document).ready(function() {
+		    $('#btnexit').click(function(){
+		    	$('#messageForm').append("<input type='hidden' id='putOrDelete' name='_method' value='DELETE'/>");
+		    	$('#messageForm').action="/chattings";
+		    	$('#messageForm').submit();
+		    });
+		})
+
 		function formatDate(date) {
 			return 
 			date.getHours() + '시 ' + 
@@ -246,7 +286,10 @@
 		var messageForm = document.querySelector('#messageForm');
 		messageForm.addEventListener('submit', sendMessage, true) 
 		//]]></script>
+		
 <script type="text/javascript" src="/assets/scripts/main.js"></script>
+<script src="/js/user.js"></script>
+<script src="/js/chatroom.js"></script>
 <script>
 	document.title = "채팅방" ;
 </script>
