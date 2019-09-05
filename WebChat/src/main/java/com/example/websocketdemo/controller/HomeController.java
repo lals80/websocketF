@@ -103,13 +103,14 @@ public class HomeController {
 		return "redirect:/";
 	}
 	
-	@GetMapping("/test")
-	public String test(Model model, HttpSession session) {
-		return "body";
-	}
-	
 	@GetMapping("/creater")
 	public String creater(Model model, HttpSession session) {
-		return "createrinfo";
+		if (HttpSessionUtils.isLoginUser(session)) {
+			User user = HttpSessionUtils.getUserFromSession(session);
+			model.addAttribute("user", user);
+			return "createrinfo";
+		} else {
+			return "redirect:/";
+		}
 	}
 }

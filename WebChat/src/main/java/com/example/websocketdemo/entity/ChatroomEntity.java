@@ -134,16 +134,18 @@ public class ChatroomEntity {
 		id = chatroom.getId();
 		name = chatroom.getName();
 		
-		MessageEntity messageEntity = new MessageEntity();
+		
 		// Message -> MessageEntity
 		for(int i=0;i<chatroom.getMessages().size();i++) {
+			MessageEntity messageEntity = new MessageEntity();
 			messageEntity.buildEntity2(chatroom.getMessages().get(i));
 			messages.add(messageEntity);
 		}
-		UserEntity userEntity = new UserEntity();
+		
 		for(int i=0;i<chatroom.getUsers().size();i++) {
+			UserEntity userEntity = new UserEntity();
 			userEntity.buildEntity2(chatroom.getUsers().get(i));
-			messages.add(messageEntity);
+			users.add(userEntity);
 		}
 	}
 	
@@ -151,16 +153,18 @@ public class ChatroomEntity {
 		id = chatroom.getId();
 		name = chatroom.getName();
 		
-		MessageEntity messageEntity = new MessageEntity();
+		
 		// Message -> MessageEntity
 		for(int i=0;i<chatroom.getMessages().size();i++) {
+			MessageEntity messageEntity = new MessageEntity();
 			messageEntity.buildEntity3(chatroom.getMessages().get(i));
 			messages.add(messageEntity);
 		}
-		UserEntity userEntity = new UserEntity();
+		
 		for(int i=0;i<chatroom.getUsers().size();i++) {
+			UserEntity userEntity = new UserEntity();
 			userEntity.buildEntity3(chatroom.getUsers().get(i));
-			messages.add(messageEntity);
+			users.add(userEntity);
 		}
 	}
 	

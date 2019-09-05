@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html
 	lang="ko"
@@ -9,83 +8,84 @@
 	<th:block th:include="fragments/head"></th:block>
 	
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-	<link rel="stylesheet" href="//unpkg.com/bootstrap@4/dist/css/bootstrap.min.css"/>
-	<script src='//unpkg.com/jquery@3/dist/jquery.min.js'></script>
-	<script src='//unpkg.com/popper.js@1/dist/umd/popper.min.js'></script>
-	<script src='//unpkg.com/bootstrap@4/dist/js/bootstrap.min.js'></script>
 	<script src="/js/sockjs.min.js"></script>
 	<script src="/js/stomp.min.js"></script>
-	<script src="/js/cookie.js"></script>
 	
 	<link rel="stylesheet" href="/css/main.css"/>
+	
 	<style>
-#container {
-  display: flex;
-}
-#box-left {
+		div .left {
+			width: 33%;
+		}
+		div .right {
+			width: 33%;
+		}
+		div .center {
+			width: 33%;
+		}
+	</style>
 
-  flex: 1;
-}
-#box-center {
-
-  flex: 3;
-  text-align: center;
-}
-#box-right {
-  flex: 0.5;
-  text-align: right;
-}
-</style>
 </head>
 
 <body>
 	<div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
-		
+
 		<th:block th:include="fragments/header"></th:block>
-		
+
 		<div class="app-main">
+
+			<th:block th:include="fragments/sidebar"></th:block>
 		
-		<th:block th:include="fragments/sidebar"></th:block>
-			
 			<div class="app-main__outer">
-				<div class="app-main__inner">					
-					<div id="contents-page">
-						<form id="messageForm" name="messageForm" nameForm="messageForm" th:object="${chatroom}" method="post">
-							<div class="chat-container">
+				<div class="app-main__inner">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="main-card mb-3 card">
+								<div class="card-body">
 								<div class="chat-header" id="container">
-									<div id="box-left"></div>
-									<div id="box-center"><h2>채팅방이름</h2></div>
-									<div id="box-right"><button id="btnexit" class="btn btn-success btn-lg">나가기</button></div>
+									<div class="left"></div>
+									<div class="center"><h2><span th:text="${chatroom.name}"></span></h2></div>
+									<div class="right">
+										<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#collapseX">&equiv;</button>
+									</div>
 								</div>
 								
 								<div class="connecting">
 									Connecting...
 								</div>
-								<div>
-								<table>
-								<td width="90%"><ul id="messageArea">
-									
-								</ul></td>
 								
-								<td width="10%">
-								<ul class="list-group" style="overflow-y:hidden">
-								
-									<li class="list-group-item-success list-group-item" th:each="user : ${users}">
-										<span th:text="${user.name}"></span>
-									</li>
-								</ul>
-								</td>
-								</table>
+								<div class="collapse width" id="collapseX">
+									<div style="width:250px; height:100%; background:green; position:absolute;"></div>
 								</div>
+
+								<div>
+									<div class="scroll-area-lg left">
+										<div class="scrollbar-container ps--active-y">
+											<ul id="messageArea" style="overflow-y:hidden"></ul>
+										</div>
+									</div>
+									
+									<div class="scroll-area-lg right">
+										<div class="scrollbar-container ps--active-y">
+											<ul class="list-group" style="overflow-y:hidden">
+												<li class="list-group-item-success list-group-item" th:each="user : ${users}">
+													<span th:text="${user.name}"></span>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								
+								<form id="messageForm" name="messageForm" th:object="${chatroom}" method="post">
 								<div class="form-group">
 									<div class="input-group clearfix">
 										<input type="text" id="message" placeholder="Type a message..." autocomplete="off" class="form-control"/>
 										<button type="submit" class="primary">Send</button>
 									</div>
-								</div>					
-							</div>
-						</form>	
-					</div>
+								</div>
+							
+						</form>
+					</div></div></div></div>
 				</div>
 			</div>
 		</div>
@@ -102,11 +102,12 @@
 		var connectingElement = document.querySelector(".connecting");
 		var messageInput = document.querySelector("#message");
 		 
-		var currentRoomId = /*[[${currentRoomId}]]*/;
+		var currentRoomId = /*[[${chatroom.id}]]*/;
 		var sessionUser = /*[[${user}]]*/;
 		var messages = /*[[${messages}]]*/;
 		var chatrooms = sessionUser.chatrooms;
 		
+		// DB에서 Message 읽어오기.
 		$( document ).ready(function() {
 	    	messages.forEach(function(element){
 	    		var messageElement = document.createElement('li');
@@ -128,12 +129,14 @@
 			        messageElement.appendChild(avatarElement);
 	
 			        var usernameElement = document.createElement('span');
-			        var usernameText = document.createTextNode(element.chatTime);
-			        var dateText = document.createTextNode(Date.now());
+			        var usernameText = document.createTextNode(element.user.name);
+			        
+			        var dateText = document.createElement('span');
+			        var dateText = document.createTextNode("   " + element.chatTime.monthValue + "월 " + element.chatTime.dayOfMonth + "일 " + element.chatTime.hour + "시 " + element.chatTime.minute + "분");
 			        
 			        usernameElement.appendChild(usernameText);
-			        usernameElement.appendChild(dateText);
 			        messageElement.appendChild(usernameElement);
+			        messageElement.appendChild(dateText);
 			        // username 띄우기
 			    }
 		    
@@ -151,13 +154,19 @@
 			    // 추가하고, 스크롤 제일 밑으로 내리기
 	    	});
 	    	messageArea.scrollTop = messageArea.scrollHeight;
+	    	
+	    	$('#btnexit').click(function(){
+		    	$('#messageForm').append("<input type='hidden' id='putOrDelete' name='_method' value='DELETE'/>");
+		    	$('#messageForm').action="/chattings";
+		    	$('#messageForm').submit();
+		    });
 		});
 		
 		if(sessionUser){
 			name = sessionUser.name;
 			var socket = new SockJS('/ws');
 			stompClient = Stomp.over(socket);
-		
+			connectingElement.classList.add('hidden');
 			stompClient.connect({}, onConnected, onError);
 		}
 
@@ -176,7 +185,7 @@
 			chatrooms.forEach(function(element) {
 				stompClient.subscribe('/topic/' + element.id, onMessageReceived);
 			});
-			connectingElement.classList.add("hidden");
+			connectingElement.classList.add('hidden');
 		}
 
 		function onError(error) {
@@ -230,14 +239,17 @@
 			        messageElement.appendChild(avatarElement);
 	
 			        var usernameElement = document.createElement('span');
+			        var dateElement = document.createElement('span');
 			        // var usernameText = document.createTextNode(message.sender);
-			        var usernameText = document.createTextNode(formatDate(message.chatTime));
+			        var nowDate = new Date();
+			        var usernameText = document.createTextNode(message.sender + "   ");
+			        var dateText = document.createTextNode(nowDate.getMonth() +1 + "월 " + nowDate.getDate() + "일 " + nowDate.getHours() + "시 " + nowDate.getMinutes() + "분");
 			        usernameElement.appendChild(usernameText);
+			        dateElement.appendChild(dateText);
 			        messageElement.appendChild(usernameElement);
 			        // username 띄우기
+			        messageElement.appendChild(dateText);
 			    }
-		    
-		    
 		    
 		    var textElement = document.createElement('p');
 		    var messageText = document.createTextNode(message.content);
@@ -268,14 +280,6 @@
 			form.setAttribute('method', 'delete');
 			form.submit();
 		}
-		
-		$(document).ready(function() {
-		    $('#btnexit').click(function(){
-		    	$('#messageForm').append("<input type='hidden' id='putOrDelete' name='_method' value='DELETE'/>");
-		    	$('#messageForm').action="/chattings";
-		    	$('#messageForm').submit();
-		    });
-		})
 
 		function formatDate(date) {
 			return 

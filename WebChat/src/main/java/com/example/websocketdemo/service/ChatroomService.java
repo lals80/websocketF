@@ -24,7 +24,7 @@ public interface ChatroomService {
 	
 	void saveChatroom(Chatroom chatroom); // 생성
 	void updateChatroom(Chatroom chatroom); // 수정
-	void exitChatroom(Chatroom chatroom); // 나가기
+	void exitChatroom(Chatroom chatroom, User user); // 나가기
 	void deleteChatroom(Chatroom chatroom); // 삭제
 	void saveChatroom2(ChatroomEntity chatroomEntity); // 생성
 

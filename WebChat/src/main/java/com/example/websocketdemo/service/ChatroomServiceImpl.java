@@ -60,14 +60,18 @@ public class ChatroomServiceImpl implements ChatroomService {
 	}
 
 	// 채팅방 인원 중 한명이 나갔을 때.
-	@Override
-	public void exitChatroom(Chatroom chatroom) {
-		// TODO Auto-generated method stub
-		ChatroomEntity entity = new ChatroomEntity();
-		entity.buildEntity(chatroom);
-		
-		repository.delete(entity);
-	}
+    @Override
+    public void exitChatroom(Chatroom chatroom, User user) {
+        // TODO Auto-generated method stub
+    	System.out.println(chatroom.getUsers());
+        System.out.println(user);
+        chatroom.getUsers().remove(user);
+        System.out.println(chatroom.getUsers());
+        ChatroomEntity entity = new ChatroomEntity();
+        entity.buildEntity(chatroom);
+        System.out.println(entity.getUsers());
+        repository.save(entity);
+    }
 	
 	// 채팅방의 모든 인원이 나갔을 때.
 	@Override

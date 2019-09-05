@@ -69,7 +69,7 @@ public class ChattingController {
 			Chatroom chatroom = chatroomService.getChatroomById(roomId);
 			model.addAttribute("users", chatroom.getUsers());
 			model.addAttribute("user", HttpSessionUtils.getUserFromSession(session));
-			model.addAttribute("currentRoomId", roomId);
+			model.addAttribute("chatroom", chatroom);
 			model.addAttribute("messages", messages);
 			return "chatroom";
 		// 로그인 되어 있지 않은 경우
@@ -89,7 +89,7 @@ public class ChattingController {
 			List<User> userlist = userService.getUsers();
 			userlist.remove(user);
 			model.addAttribute("userlist", userlist);
-			return "registerchatroom2";
+			return "registerchatroom";
 		// 로그인 되어 있지 않은 경우
 		} else {
 			return "redirect:/login";
@@ -152,6 +152,15 @@ public class ChattingController {
 		}
 	}
 	
+	@DeleteMapping("/{id}")
+    public String deleteUserById(@PathVariable(value = "id") Long roomId, Model model, HttpSession session) {
+        Chatroom chatroom = chatroomService.getChatroomById(roomId);
+        User user = HttpSessionUtils.getUserFromSession(session);
+        chatroomService.exitChatroom(chatroom, user);
+
+        return "redirect:/chattings";
+    }
+	
 	/*
 	// 채팅방 수정(이름변경 or 강퇴)
 	@PutMapping("")
@@ -171,13 +180,6 @@ public class ChattingController {
 		return "redirect:/";
 	}
 	
-	// 채팅방 나가기
-	@DeleteMapping("")
-	public String deleteUserById(Model model, HttpSession session) {
-		userService.deleteUser(HttpSessionUtils.getUserFromSession(session));
-		
-		session.invalidate();
-		return "redirect:/";
-	}
+	
 	*/
 }
