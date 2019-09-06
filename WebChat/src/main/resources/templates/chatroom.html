@@ -7,21 +7,22 @@
 <head>
 	<th:block th:include="fragments/head"></th:block>
 	
-	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-	<script src="/js/sockjs.min.js"></script>
-	<script src="/js/stomp.min.js"></script>
+	
 	
 	<link rel="stylesheet" href="/css/main.css"/>
 	
 	<style>
 		div .left {
-			width: 33%;
+			display: inline-flex;
+			text-align: left;
 		}
 		div .right {
-			width: 33%;
+			display: inline-flex;
+			text-align: right;
 		}
 		div .center {
-			width: 33%;
+			display: inline-flex;
+			text-align: center;
 		}
 	</style>
 
@@ -43,10 +44,10 @@
 							<div class="main-card mb-3 card">
 								<div class="card-body">
 								<div class="chat-header" id="container">
-									<div class="left"></div>
+									
 									<div class="center"><h2><span th:text="${chatroom.name}"></span></h2></div>
 									<div class="right">
-										<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#collapseX">&equiv;</button>
+										<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#collapseX" style="text-align:right;">&equiv;</button>
 									</div>
 								</div>
 								
@@ -59,13 +60,13 @@
 								</div>
 
 								<div>
-									<div class="scroll-area-lg left">
+									<div class="left"><div class="scroll-area-lg">
 										<div class="scrollbar-container ps--active-y">
 											<ul id="messageArea" style="overflow-y:hidden"></ul>
 										</div>
-									</div>
+									</div></div>
 									
-									<div class="scroll-area-lg right">
+									<div class="right"><div class="scroll-area-lg">
 										<div class="scrollbar-container ps--active-y">
 											<ul class="list-group" style="overflow-y:hidden">
 												<li class="list-group-item-success list-group-item" th:each="user : ${users}">
@@ -73,7 +74,7 @@
 												</li>
 											</ul>
 										</div>
-									</div>
+									</div></div>
 								</div>
 								
 								<form id="messageForm" name="messageForm" th:object="${chatroom}" method="post">
@@ -103,6 +104,7 @@
 		var messageInput = document.querySelector("#message");
 		 
 		var currentRoomId = /*[[${chatroom.id}]]*/;
+		var currentRoom = /*[[${chatroom}]]*/;
 		var sessionUser = /*[[${user}]]*/;
 		var messages = /*[[${messages}]]*/;
 		var chatrooms = sessionUser.chatrooms;
@@ -250,6 +252,7 @@
 			        // username 띄우기
 			        messageElement.appendChild(dateText);
 			    }
+			    	
 		    
 		    var textElement = document.createElement('p');
 		    var messageText = document.createTextNode(message.content);
@@ -261,9 +264,21 @@
 		    messageArea.appendChild(messageElement);
 		    messageArea.scrollTop = messageArea.scrollHeight;
 		    // 추가하고, 스크롤 제일 밑으로 내리기
+		    } else {
+		    	toast(message.sender, message.content, message.roomName);
 		    }
 		}
-
+		
+		function  toast(messageSender, messageContent, chatroomname){
+            var messageinfo = chatroomname + "방의 " + messageSender + "님";
+            toastr.options = {
+                closeButton: true,
+                progressBar: true,
+                showMethod: 'slideDown',
+                timeOut: 4000
+            };
+            toastr.success(messageContent, messageinfo);
+        }
 
 		function getAvatarColor(messageSender) {
 		    var hash = 0;

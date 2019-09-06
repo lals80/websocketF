@@ -41,6 +41,7 @@ public class ChatController {
     			chatroomService.getChatroomById(roomId));
     	
     	messageService.saveMessage(message);
+    	chatMessage.setRoomName(chatroomService.getChatroomById(roomId).getName());
     	
     	template.convertAndSend("/topic/" + roomId, chatMessage);
     }
