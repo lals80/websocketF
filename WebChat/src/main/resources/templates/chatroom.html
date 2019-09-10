@@ -6,26 +6,27 @@
 
 <head>
 	<th:block th:include="fragments/head"></th:block>
-	
-	
-	
 	<link rel="stylesheet" href="/css/main.css"/>
 	
 	<style>
-		div .left {
-			display: inline-flex;
-			text-align: left;
+		#NavbarCollapse {
+			width: 50%;
+			height: 40%;
+			position: absolute;
+			right: 30px;
+			z-index: 1;
+			overflow: auto;
 		}
-		div .right {
-			display: inline-flex;
-			text-align: right;
+		#NavbarCollapse div{
+			background-color: lightgray;
 		}
-		div .center {
-			display: inline-flex;
+		#NavbarCollapse div a{
+			position: relative;
+		}
+		.nav-header {
 			text-align: center;
 		}
 	</style>
-
 </head>
 
 <body>
@@ -43,50 +44,45 @@
 						<div class="col-md-12">
 							<div class="main-card mb-3 card">
 								<div class="card-body">
-								<div class="chat-header" id="container">
-									
-									<div class="center"><h2><span th:text="${chatroom.name}"></span></h2></div>
-									<div class="right">
-										<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#collapseX" style="text-align:right;">&equiv;</button>
+								
+								
+									<div class="connecting">
+										Connecting...
+									</div>
+									<div>
+										<div class="card-header">
+	                                        <div class="chat-header">
+	                                        <h2 style="display:inline;"><span th:text="${chatroom.name}"></span></h2>
+	                                        <h2 style="float:right;"><a role="button" data-toggle="collapse" data-target="#NavbarCollapse" class="nav-link navbar-toggler hidden-md-up"><i class="pe-7s-menu"></i></a></h2>
+	                                        </div>
+	                                    </div>
+	                                    <div class="card-body">
+	                                        <div class="scroll-area-lg">
+	                                        	<div class="collapse navbar-toggleable-sm hidden-md-up col-xs-12" id="NavbarCollapse">
+	                                        		<div class="nav-item nav-header"> 대화방 이름 변경 </div>
+	                                        		<div class="nav-item nav-header"> 대화 상대 초대 </div>
+	                                        		<div class="nav-item nav-header"> 대화 상대 </div>
+													<div class="nav-item" th:each="user : ${users}"><span th:text="${user.name}"></span><a href="javascript:kick();">X</a></div>
+													<div class="nav-item nav-header"> 채팅 금지 </div>
+						                        </div>
+	                                            <div class="scrollbar-container ps--active-y">
+	                                            <p id="messageArea" style="overflow-y:hidden;"></p>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="d-block text-right card-footer">
+	                                    	<form id="messageForm" name="messageForm" th:object="${chatroom}" method="post">
+		                                        <div class="input-group clearfix">
+													<input type="text" id="message" placeholder="Type a message..." autocomplete="off" class="form-control"/>
+													<button type="submit" class="btn btn-success btn-lg">Send</button>
+												</div>
+	                                    	</form>
+	                                    </div>
 									</div>
 								</div>
-								
-								<div class="connecting">
-									Connecting...
-								</div>
-								
-								<div class="collapse width" id="collapseX">
-									<div style="width:250px; height:100%; background:green; position:absolute;"></div>
-								</div>
-
-								<div>
-									<div class="left"><div class="scroll-area-lg">
-										<div class="scrollbar-container ps--active-y">
-											<ul id="messageArea" style="overflow-y:hidden"></ul>
-										</div>
-									</div></div>
-									
-									<div class="right"><div class="scroll-area-lg">
-										<div class="scrollbar-container ps--active-y">
-											<ul class="list-group" style="overflow-y:hidden">
-												<li class="list-group-item-success list-group-item" th:each="user : ${users}">
-													<span th:text="${user.name}"></span>
-												</li>
-											</ul>
-										</div>
-									</div></div>
-								</div>
-								
-								<form id="messageForm" name="messageForm" th:object="${chatroom}" method="post">
-								<div class="form-group">
-									<div class="input-group clearfix">
-										<input type="text" id="message" placeholder="Type a message..." autocomplete="off" class="form-control"/>
-										<button type="submit" class="primary">Send</button>
-									</div>
-								</div>
-							
-						</form>
-					</div></div></div></div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -104,6 +100,7 @@
 		var messageInput = document.querySelector("#message");
 		 
 		var currentRoomId = /*[[${chatroom.id}]]*/;
+		// if (currentRoomId==null) currentRoomId = 0;
 		var currentRoom = /*[[${chatroom}]]*/;
 		var sessionUser = /*[[${user}]]*/;
 		var messages = /*[[${messages}]]*/;

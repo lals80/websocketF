@@ -105,7 +105,6 @@ public class ChattingController {
 			
 			List<User> userlist = userService.getUsersByName(search.getName());
 			userlist.remove(user);
-			for(User user2 : userlist) System.out.println(user2.getName());
 			return userlist;
 			
 		// 로그인 되어 있지 않은 경우
