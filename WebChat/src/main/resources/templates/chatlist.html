@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html
 	lang="ko"
@@ -7,6 +8,9 @@
 
 <head>
 	<th:block th:include="fragments/head"></th:block>
+	
+	<link href="/css/toastr.min.css" rel="stylesheet" />
+    <script src="/js/toastr.min.js"></script>
 </head>
 
 <body>
@@ -71,6 +75,94 @@
 			</div>
 		</div>
 	</div>
+	
+<script th:inline="javascript">//<![CDATA[
+		'use strict';
+		
+		var socket = null;
+		//server 소켓의 endpoint인 /ws로 접속할 클라이언트  소켓 생성.
+		var stompClient = null;
+		var name = null;
+		
+		var connectingElement = document.querySelector(".connecting");
+		var messageInput = document.querySelector("#message");
+		 
+		//문제지점
+		
+		var currentRoom = /*[[${chatroom}]]*/;
+		var sessionUser = /*[[${user}]]*/;
+		var messages = /*[[${messages}]]*/;
+		var chatrooms = sessionUser.chatrooms;
+		
+		// DB에서 Message 읽어오기.
+		
+		if(sessionUser){
+			name = sessionUser.name;
+			var socket = new SockJS('/ws');
+			stompClient = Stomp.over(socket);
+
+			stompClient.connect({}, onConnected, onError);
+		}
+
+		function connect(event) {
+			stompClient.connect({}, onConnected, onError);
+			event.preventDefault();
+		}
+
+
+		function onConnected() {
+			chatrooms.forEach(function(element) {
+				stompClient.subscribe('/topic/' + element.id, onMessageReceived);
+			});
+			//connectingElement.classList.add('hidden');
+		}
+
+		function onError(error) {
+			connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
+		    connectingElement.style.color = 'red';
+		}
+		
+		function sendMessage(event) {
+		    var messageContent = messageInput.value.trim();
+		    
+		    if(messageContent && stompClient) {
+		        var chatMessage = {
+		        	senderId: sessionUser.id,
+		            sender: name,
+		            content: messageInput.value,
+		            type: 'CHAT',
+		            roomId: currentRoomId
+		        };
+		        stompClient.send("/app/chat.sendMessage/" + currentRoomId, {}, JSON.stringify(chatMessage));
+		        messageInput.value = '';
+		    }
+		    
+		    event.preventDefault();
+		}
+
+
+		function onMessageReceived(payload) {
+			// 받은 메시지를 해석해서 메시지 창에 나오는 HTML 소스 추가
+		    var message = JSON.parse(payload.body);
+		    toast(message.sender, message.content, message.roomName);
+		    
+		}
+		
+		function  toast(messageSender, messageContent, chatroomname){
+            var messageinfo = chatroomname + "방의 " + messageSender + "님";
+            toastr.options = {
+                closeButton: true,
+                progressBar: true,
+                showMethod: 'slideDown',
+                timeOut: 4000
+            };
+            toastr.success(messageContent, messageinfo);
+        }
+
+		var messageForm = document.querySelector('#messageForm');
+		//messageForm.addEventListener('submit', sendMessage, true) 
+		//]]></script>
+	
 <script type="text/javascript" src="/assets/scripts/main.js"></script>
 <script src="/js/main2.js"></script>
 <script src="/js/chatlist.js"></script>

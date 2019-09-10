@@ -7,12 +7,6 @@
 
 <head>
 	<th:block th:include="fragments/head"></th:block>
-	
-	<script src="RGraph.common.core.js"></script>
-	<script src="RGraph.common.dynamic.js"></script>
-	<script src="RGraph.common.tooltips.js"></script>
-	<script src="RGraph.common.effects.js"></script>
-	<script src="RGraph.radar.js"></script>
 </head>
 
 <body>
@@ -158,34 +152,6 @@
 <script type="text/javascript" src="./assets/scripts/main.js"></script>
 <script>
 	document.title = "제작자 정보" ;
-	data = [
-		[16,18,14,15,14,13,16,18],
-		[16,15,14,16,18,16,15,14]
-	];
-	
-	
-		
-	
-	new RGraph.Radar({
-        id: 'cvs',
-        data: [
-            [8,7,6,7,8,6],
-            [8,9,4,6,6,8]
-        ],
-        options: {
-            backgroundCirclesPoly: true,
-            backgroundCirclesSpacing: 30,
-            colors: ['transparent'],
-            axesColor: 'transparent',
-            highlights: true,
-            colorsStroke: ['red', 'black'],
-            linewidth: 3,
-            labels: ['', 'Barry', 'Gary','Dave','Paul','Rich'],
-            labelsAxes: 'n',
-            textSize: 16
-        }
-    }).trace();
-	
 </script>
 </body> 
 </html>
