@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html
 	lang="ko"
@@ -51,7 +49,7 @@
 															
 																<td class="text-center text-muted">
 																
-																<span th:text="(${chatroom.messages.size() != 0}) ? ${chatroom.messages[x].contents} : '작성된 메시지가 없습니다.'"></span>
+																<span th:text="(${chatroom.messages.size() != 0}) ? ${chatroom.messages[x].contents} : '작성된 메시지가 없습니다.'" style="width:20px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
 																<!--
 																  
 																<span th:text="${chatroom.messages[x].contents}"></span>

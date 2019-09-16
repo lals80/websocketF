@@ -62,7 +62,7 @@
 	                                        		<div class="nav-item nav-header"> 대화방 이름 변경 </div>
 	                                        		<div class="nav-item nav-header"> 대화 상대 초대 </div>
 	                                        		<div class="nav-item nav-header"> 대화 상대 </div>
-													<div class="nav-item" th:each="user : ${users}"><span th:text="${user.name}"></span><a href="javascript:kick();">X</a></div>
+													<div id="usersDiv" class="nav-item" th:each="user : ${users}"><span th:text="${user.name}"></span><a th:href="'javascript:userkick(\'' + ${user.id} + '\')'">X</a></div>
 													<div class="nav-item nav-header"> 채팅 금지 </div>
 						                        </div>
 	                                            <div class="scrollbar-container ps--active-y">
@@ -297,6 +297,33 @@
 			return 
 			date.getHours() + '시 ' + 
 			date.getMinutes() + '분';
+		}
+		
+		function userkick(userId) {
+			var ajaxForm = {
+                id: userId
+            };
+
+            $.ajax({
+                type: "GET",
+                contentType: 'application/json',
+                url: "/chattings/" + currentRoomId + "/kick",
+                data: ajaxForm,
+                dataType: "json",
+                cache: false,
+                timeout: 600000,
+                success: function (userlist) {
+                	$('#userDiv').html("");
+                	userlist.forEach(function(element) {
+                		if(element.id != userId)
+                			$('#userDiv').append('<span text="' + element.name + '></span><a href="userkick(\'' + element.id + '\')">X</a>');
+                	});
+                	
+                    console.log("SUCCESS : ", data);
+                }, error: function (e) {
+                    console.log("ERROR : ", e);
+                }
+            });
 		}
 		
 		var messageForm = document.querySelector('#messageForm');
