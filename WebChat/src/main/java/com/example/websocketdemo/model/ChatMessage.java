@@ -1,6 +1,8 @@
 package com.example.websocketdemo.model;
 
 import java.time.LocalDateTime;
+import com.example.websocketdemo.domain.User;
+import java.util.List;
 
 public class ChatMessage {
 	private Long senderId;
@@ -10,11 +12,15 @@ public class ChatMessage {
     private String roomName;
     private Long roomId;
     private LocalDateTime chatTime;
+    private Long deleteUserId;
+    private String deleteUserName;
+    private List<User> leftUsers;
 
     public enum MessageType {
         CHAT,
         JOIN,
-        LEAVE
+        LEAVE,
+        KICK
     }
     // 열거형 : CHAT=0 JOIN=1 LEAVE=2
 
@@ -73,5 +79,28 @@ public class ChatMessage {
 	public void setChatTime(LocalDateTime chatTime) {
 		this.chatTime = chatTime;
 	}
-    	
+
+	public Long getDeleteUserId() {
+		return deleteUserId;
+	}
+
+	public void setDeleteUserId(Long deleteUserId) {
+		this.deleteUserId = deleteUserId;
+	}
+
+	public String getDeleteUserName() {
+		return deleteUserName;
+	}
+
+	public void setDeleteUserName(String deleteUserName) {
+		this.deleteUserName = deleteUserName;
+	}
+
+	public List<User> getLeftUsers() {
+		return leftUsers;
+	}
+
+	public void setLeftUsers(List<User> leftUsers) {
+		this.leftUsers = leftUsers;
+	}	
 }

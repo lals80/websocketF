@@ -114,31 +114,6 @@ public class ChattingController {
 		}
 	}
 	
-	@GetMapping("{id}/kick")
-    @ResponseBody
-    public List<User> kickuser(@PathVariable(value = "id") Long roomId, AjaxForm form, HttpSession session, Model model) {
-        // 로그인 되어 있는 경우
-        if (HttpSessionUtils.isLoginUser(session)) {
-            Chatroom chatroom = chatroomService.getChatroomById(roomId);
-            User user = userService.getUserById(form.getId());
-            chatroomService.exitChatroom(chatroom, user);
-            List<User> userlist = chatroomService.getChatroomById(roomId).getUsers();
-            
-            // 문제점1 : 추방당한 사람이 새로고침하는 것이 아니므로 채팅방 내부에 남아있음.(나중에 알아보기)
-            // 문제점2 : 채팅방의 유저 목록에 추방당한 사람이 그대로 남아있음.
-            
-            // HTTP 원리 : 요청-응답(request-response) 구조
-            // 지금 a유저가 b를 추방하기 위한 요청을 보냈다.
-            // 서버에서는 요청을 보낸 a에 대해서만 새로고침 요청을 할 수 있음.
-
-            return userlist;
-
-        // 로그인 되어 있지 않은 경우
-        } else {
-            return null;
-        }
-    }
-	
 	// 채팅방 등록 처리
 	@PostMapping("")
 	public String registerChattings(HttpServletRequest request, @Valid Chatroom formChatroom, Model model, HttpSession session) {
