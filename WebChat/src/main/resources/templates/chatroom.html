@@ -64,7 +64,7 @@
 	                                        		<div class="nav-item nav-header"> 대화 상대 </div>
 													<div class="nav-item usersDiv" th:each="user : ${users}">
 														<span th:text="${user.name}" ></span>
-														<a th:href="'javascript:userkick(\'' + ${user.id} + '\')'">X</a>
+														<a th:if="${roomLeader}" th:href="'javascript:userkick(\'' + ${user.id} + '\')'"> &#x2716; </a>
 													</div>
 													<div class="nav-item nav-header"> 채팅 금지 </div>
 						                        </div>

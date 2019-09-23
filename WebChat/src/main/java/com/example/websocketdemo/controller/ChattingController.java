@@ -66,13 +66,26 @@ public class ChattingController {
 	public String chatroomPage(@PathVariable(value = "id") Long roomId, Model model, HttpSession session) { 
 		// 로그인 되어 있는 경우
 		if (HttpSessionUtils.isLoginUser(session)) {
-			List<Message> messages = chatroomService.getMessagesByRoomId(roomId);
-			Chatroom chatroom = chatroomService.getChatroomById(roomId);
-			model.addAttribute("users", chatroom.getUsers());
-			model.addAttribute("user", HttpSessionUtils.getUserFromSession(session));
-			model.addAttribute("chatroom", chatroom);
-			model.addAttribute("messages", messages);
-			return "chatroom";
+			
+			// Java에서의 forEach문
+			for(Chatroom userchatroom : HttpSessionUtils.getUserFromSession(session).getChatrooms()) {
+				if(userchatroom.getId() == roomId) {
+					List<Message> messages = chatroomService.getMessagesByRoomId(roomId);
+					Chatroom chatroom = chatroomService.getChatroomById(roomId);
+					model.addAttribute("users", chatroom.getUsers());
+					model.addAttribute("user", HttpSessionUtils.getUserFromSession(session));
+					model.addAttribute("chatroom", chatroom);
+					model.addAttribute("messages", messages);
+					System.out.println("asdf");
+					System.out.println(chatroom.getUsers().get(0).getId());
+					System.out.println(HttpSessionUtils.getUserFromSession(session).getId());
+					if(chatroom.getUsers().get(0).getId() == HttpSessionUtils.getUserFromSession(session).getId()) 
+						model.addAttribute("roomLeader", true);
+					return "chatroom";
+				}
+			}
+			return "redirect:/chattings";
+			
 		// 로그인 되어 있지 않은 경우
 		} else {
 			return "redirect:/login";
