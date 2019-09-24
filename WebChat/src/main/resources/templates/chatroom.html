@@ -68,7 +68,7 @@
 													</div>
 													<div class="nav-item nav-header"> 채팅 금지 </div>
 						                        </div>
-	                                            <div class="scrollbar-container ps--active-y">
+	                                            <div id="scrollArea" class="scrollbar-container ps--active-y">
 	                                            <p id="messageArea" style="overflow-y:hidden;"></p>
 	                                            </div>
 	                                        </div>
@@ -143,7 +143,6 @@
 			    }
 		    
 		    
-		    
 			    var textElement = document.createElement('p');
 			    var messageText = document.createTextNode(element.contents);
 			    textElement.appendChild(messageText);
@@ -155,7 +154,7 @@
 			    
 			    // 추가하고, 스크롤 제일 밑으로 내리기
 	    	});
-	    	messageArea.scrollTop = messageArea.scrollHeight;
+	    	$('scrollArea').scrollTo(1000);
 	    	
 	    	$('#btnexit').click(function(){
 		    	$('#messageForm').append("<input type='hidden' id='putOrDelete' name='_method' value='DELETE'/>");
