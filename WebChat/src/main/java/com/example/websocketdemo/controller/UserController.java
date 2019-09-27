@@ -107,6 +107,7 @@ public class UserController {
 	// 유저 수정 처리
 	@PutMapping("")
 	public String updateUser(@Valid User formUser, Model model, HttpSession session) {
+		System.out.println("asdfasdf");
 		User user = HttpSessionUtils.getUserFromSession(session);
 		user.setUserPw(formUser.getUserPw());
 		user.setName(formUser.getName());

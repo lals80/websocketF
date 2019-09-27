@@ -26,7 +26,6 @@ import com.example.websocketdemo.domain.Message;
 import com.example.websocketdemo.domain.User;
 import com.example.websocketdemo.entity.ChatroomEntity;
 import com.example.websocketdemo.entity.UserEntity;
-import com.example.websocketdemo.model.AjaxForm;
 import com.example.websocketdemo.model.SearchMessage;
 import com.example.websocketdemo.service.ChatroomService;
 import com.example.websocketdemo.service.UserService;

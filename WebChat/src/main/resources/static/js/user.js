@@ -8,10 +8,3 @@ $(document).ready(function() {
     });
 })
 
-function logout() {
-	location.href = "/logout.do";
-}
-
-function chatlist() {
-	location.href = "/chattings"
-}

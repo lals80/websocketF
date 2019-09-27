@@ -4,6 +4,13 @@ function login() {
 	form.setAttribute('method', 'get');
 	form.submit();
 }
+function logout() {
+	location.href = "/logout.do";
+}
+
+function chatlist() {
+	location.href = "/chattings"
+}
 function user() {
 	location.href = "/user";
 }
